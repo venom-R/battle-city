@@ -1,0 +1,22 @@
+{
+  "name": "tanks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "sass": "^1.26.10",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "pixi.js": "^5.3.3"
+  }
+}
