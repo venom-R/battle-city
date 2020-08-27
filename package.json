@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.159",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.5.0",
     "prettier": "^2.0.5",
     "sass": "^1.26.10",
     "typescript": "^4.0.2"
@@ -20,5 +21,14 @@
   "dependencies": {
     "lodash": "^4.17.20",
     "pixi.js": "^5.3.3"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "src/assets",
+        "staticOutDir": "assets"
+      }
+    ],
+    "watcherGlob": "**"
   }
 }
