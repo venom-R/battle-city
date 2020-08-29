@@ -1,4 +1,4 @@
 export const SETTINGS = {
-	width: 1024,
-	height: 768,
+	WIDTH: 1024,
+	HEIGHT: 768,
 };

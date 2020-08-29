@@ -20,6 +20,7 @@ export class StateMachine {
 
 		if (options.currentState) {
 			this._currentState = options.currentState;
+			this.currentState.onEnter();
 		}
 	}
 

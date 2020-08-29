@@ -1,14 +1,12 @@
-import { Application } from "pixi.js";
+import { GameController } from "./controller/GameController";
+import { GameModel } from "./model/GameModel";
+import { GameView } from "./view/GameView";
 import "../styles/index.scss";
 
-const APP_CONFIG = {
-	width: 1024,
-	height: 768,
-	antialiasing: true,
-	transparent: false,
-	resolution: 1,
-};
+function initGame(): void {
+	const model = new GameModel();
+	const view = new GameView();
+	new GameController(model, view);
+}
 
-const stageElement: HTMLElement = document.getElementById("stage");
-const app = new Application(APP_CONFIG);
-stageElement.appendChild(app.view);
+document.addEventListener("DOMContentLoaded", initGame);
