@@ -1,8 +1,7 @@
-import { Application, Container, DisplayObject, ITextureDictionary, Sprite } from "pixi.js";
+import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
 import { COLORS } from "../constants/colors";
 import { SETTINGS } from "../constants/settings";
 import { ISize } from "../interface/ISize";
-import Emitter from "../util/Emitter";
 
 const APP_CONFIG = {
 	width: SETTINGS.WIDTH,
@@ -17,7 +16,6 @@ export class GameView {
 	public textures: ITextureDictionary = {};
 	private _canvasContainer: HTMLElement;
 	private _app: Application;
-	public readonly emitter = new Emitter();
 
 	constructor() {
 		this.initializeApplication();
@@ -31,19 +29,26 @@ export class GameView {
 		return this._app;
 	}
 
-	public get rendererSize(): ISize {
+	public get screenSize(): ISize {
 		return {
-			height: this._app.renderer.height,
-			width: this._app.renderer.width,
+			height: this._app.screen.height,
+			width: this._app.screen.width,
 		};
 	}
 
+	public getTexture(textureName: string): Texture {
+		if (this.textures) {
+			return this.textures[textureName];
+		}
+		throw new Error("Textures has not been loaded!");
+	}
+
 	public alignComponentCenterX(component: Container | Sprite): void {
-		component.x = (this.rendererSize.width - component.width) / 2;
+		component.x = (this.screenSize.width - component.width) / 2;
 	}
 
 	public alignComponentCenterY(component: Container | Sprite): void {
-		component.y = (this.rendererSize.height - component.height) / 2;
+		component.y = (this.screenSize.height - component.height) / 2;
 	}
 
 	private initializeApplication(): void {

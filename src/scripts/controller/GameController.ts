@@ -6,7 +6,6 @@ import { ETextureName } from "../enum/ETextureName";
 import { IState } from "../interface/IState";
 import { IStateContext } from "../interface/IStateContext";
 import { GameModel } from "../model/GameModel";
-import Emitter from "../util/Emitter";
 import { GameView } from "../view/GameView";
 import { EndState } from "./state/EndState";
 import { GameState } from "./state/GameState";
@@ -16,7 +15,6 @@ import { MenuState } from "./state/MenuState";
 export class GameController {
 	protected readonly model: GameModel;
 	protected readonly view: GameView;
-	protected readonly emitter = new Emitter();
 	private _ticker: Ticker;
 
 	constructor(model: GameModel, view: GameView) {
@@ -55,35 +53,37 @@ export class GameController {
 	}
 
 	private registerEventListeners(): void {
-		this.emitter.on(EEventName.ASSETS_LOADED, (resources: Partial<Record<string, LoaderResource>>) => {
+		const { emitter } = this.model;
+		emitter.on(EEventName.ASSETS_LOADED, (resources: Partial<Record<string, LoaderResource>>) => {
 			this.view.textures = { ...resources[ETextureName.ROOT].textures };
 			this.model.isAssetsLoaded = true;
 		});
-		this.emitter.on(EEventName.ASSETS_LOADING_PROGRESS, (progress: number) => {
+		emitter.on(EEventName.ASSETS_LOADING_PROGRESS, (progress: number) => {
 			this.model.loadingProgress = progress;
 		});
-		this.emitter.on(EEventName.ASSETS_LOADING_FAILURE, (error: Error) => {
+		emitter.on(EEventName.ASSETS_LOADING_FAILURE, (error: Error) => {
 			console.error(error);
 			this.ticketStop();
 		});
 	}
 
 	private loadAssets(): void {
+		const { emitter } = this.model;
 		this.model.loader
 			.add(ETextureName.ROOT)
 			.load((_loader: Loader, resources: Partial<Record<string, LoaderResource>>) => {
-				this.emitter.emit(EEventName.ASSETS_LOADED, resources);
+				emitter.emit(EEventName.ASSETS_LOADED, resources);
 			});
 		this.model.loader.onProgress.add((loader: Loader) => {
-			this.emitter.emit(EEventName.ASSETS_LOADING_PROGRESS, loader.progress);
+			emitter.emit(EEventName.ASSETS_LOADING_PROGRESS, loader.progress);
 		});
 		this.model.loader.onError.add((error) => {
-			this.emitter.emit(EEventName.ASSETS_LOADING_FAILURE, error);
+			emitter.emit(EEventName.ASSETS_LOADING_FAILURE, error);
 		});
 	}
 
 	private gameLoop(delta: number) {
-		if (this.currentState) {
+		if (this.currentState && this.currentState.updateFrame) {
 			this.currentState.updateFrame(delta);
 		}
 	}

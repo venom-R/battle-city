@@ -20,7 +20,5 @@ export class LoadingBar extends Container {
 	public updateProgress(progress: number): void {
 		this._progress = progress;
 		this._bar.width = Math.ceil((this._bar.defaultWidth / 100) * progress);
-		console.log("progress", progress);
-		console.log("width", this._bar.width);
 	}
 }

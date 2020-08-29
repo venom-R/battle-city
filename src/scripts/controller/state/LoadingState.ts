@@ -6,12 +6,10 @@ import { LoadingBar } from "../../components/LoadingBar/LoadingBar";
 import { AbstractState } from "./AbstractState";
 
 export class LoadingState extends AbstractState implements IState {
-	public scene: Container;
 	public readonly loadingBar: LoadingBar;
 
 	constructor(context: IStateContext) {
 		super(context);
-		this.scene = new Container();
 		this.loadingBar = new LoadingBar();
 		this.view.alignComponentCenterX(this.loadingBar);
 		this.view.alignComponentCenterY(this.loadingBar);
