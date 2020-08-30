@@ -1,22 +1,16 @@
-import { Container } from "pixi.js";
 import { EStateName } from "../../enum/EStateName";
 import { IState } from "../../interface/IState";
-import { IStateContext } from "../../interface/IStateContext";
 import { LoadingBar } from "../../components/LoadingBar/LoadingBar";
 import { AbstractState } from "./AbstractState";
 
 export class LoadingState extends AbstractState implements IState {
-	public readonly loadingBar: LoadingBar;
-
-	constructor(context: IStateContext) {
-		super(context);
-		this.loadingBar = new LoadingBar();
-		this.view.alignComponentCenterX(this.loadingBar);
-		this.view.alignComponentCenterY(this.loadingBar);
-		this.scene.addChild(this.loadingBar);
-	}
+	public _loadingBar: LoadingBar;
 
 	public onEnter(): void {
+		this._loadingBar = new LoadingBar();
+		this.view.alignComponentCenterX(this._loadingBar);
+		this.view.alignComponentCenterY(this._loadingBar);
+		this.scene.addChild(this._loadingBar);
 		this.view.addToStage(this.scene);
 	}
 
@@ -25,7 +19,7 @@ export class LoadingState extends AbstractState implements IState {
 	}
 
 	public updateFrame(delta?: number): void {
-		this.loadingBar.updateProgress(this.model.loadingProgress);
+		this._loadingBar.updateProgress(this.model.loadingProgress);
 		if (this.model.isAssetsLoaded) {
 			this.transition(EStateName.MENU);
 		}

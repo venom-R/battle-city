@@ -2,7 +2,6 @@ import { Container } from "pixi.js";
 import { IState } from "../../interface/IState";
 import { IStateContext } from "../../interface/IStateContext";
 import { GameModel } from "../../model/GameModel";
-import { StateMachine } from "../../util/StateMachine";
 import { GameView } from "../../view/GameView";
 
 export abstract class AbstractState implements IState {
@@ -13,6 +12,7 @@ export abstract class AbstractState implements IState {
 	constructor(context: IStateContext) {
 		this.model = context.model;
 		this.view = context.view;
+		this.scene = new Container();
 	}
 
 	public transition(nextStateName: string): void {
