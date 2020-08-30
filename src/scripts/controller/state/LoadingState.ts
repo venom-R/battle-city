@@ -27,7 +27,7 @@ export class LoadingState extends AbstractState implements IState {
 	public updateFrame(delta?: number): void {
 		this.loadingBar.updateProgress(this.model.loadingProgress);
 		if (this.model.isAssetsLoaded) {
-			this.stateMachine.transition(EStateName.MENU);
+			this.transition(EStateName.MENU);
 		}
 	}
 }

@@ -9,13 +9,14 @@ export abstract class AbstractState implements IState {
 	public scene: Container;
 	protected model: GameModel;
 	protected view: GameView;
-	protected stateMachine: StateMachine;
 
 	constructor(context: IStateContext) {
 		this.model = context.model;
 		this.view = context.view;
-		this.stateMachine = this.model.stateMachine;
-		this.scene = new Container();
+	}
+
+	public transition(nextStateName: string): void {
+		this.model.stateMachine.transition(nextStateName);
 	}
 
 	public abstract onEnter(): void;
