@@ -1,4 +1,6 @@
 import { Text, TextStyle } from "pixi.js";
+import { EComponentType } from "../../enum/EComponentType";
+import { IComponent } from "../../interface/IComponent";
 
 const style = new TextStyle({
 	fontFamily: "sans-serif",
@@ -8,7 +10,9 @@ const style = new TextStyle({
 	align: "center",
 });
 
-export class Title extends Text {
+export class Title extends Text implements IComponent {
+	public type: string = EComponentType.TITLE;
+
 	constructor(text: string) {
 		super(text, style);
 	}

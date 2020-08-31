@@ -1,3 +1,4 @@
+import { EComponentType } from "../../enum/EComponentType";
 import { EStateName } from "../../enum/EStateName";
 import { IState } from "../../interface/IState";
 import { LoadingBar } from "../../components/LoadingBar/LoadingBar";
@@ -7,11 +8,11 @@ export class LoadingState extends AbstractState implements IState {
 	public _loadingBar: LoadingBar;
 
 	public onEnter(): void {
-		this._loadingBar = new LoadingBar();
+		this._loadingBar = this.createComponent(EComponentType.LOADING_BAR);
 		this.view.alignComponentCenterX(this._loadingBar);
 		this.view.alignComponentCenterY(this._loadingBar);
 		this.scene.addChild(this._loadingBar);
-		this.view.addToStage(this.scene);
+		this.scene.visible = true;
 	}
 
 	public onLeave(): void {

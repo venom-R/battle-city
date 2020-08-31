@@ -1,4 +1,5 @@
 import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
+import { componentsFactory } from "../components/componentsFactory";
 import { COLORS } from "../constants/colors";
 import { SETTINGS } from "../constants/settings";
 import { ISize } from "../interface/ISize";
@@ -49,6 +50,11 @@ export class GameView {
 
 	public alignComponentCenterY(component: Container | Sprite): void {
 		component.y = (this.screenSize.height - component.height) / 2;
+	}
+
+	public createComponent(type: string, ...rest: any) {
+		const creator: Function = componentsFactory(this.getTexture, this);
+		return creator(type, ...rest);
 	}
 
 	private initializeApplication(): void {

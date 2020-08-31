@@ -13,10 +13,16 @@ export abstract class AbstractState implements IState {
 		this.model = context.model;
 		this.view = context.view;
 		this.scene = new Container();
+		this.scene.visible = false;
+		this.view.addToStage(this.scene);
 	}
 
 	public transition(nextStateName: string): void {
 		this.model.stateMachine.transition(nextStateName);
+	}
+
+	public createComponent(type: string, ...rest: any) {
+		return this.view.createComponent(type, ...rest);
 	}
 
 	public abstract onEnter(): void;
