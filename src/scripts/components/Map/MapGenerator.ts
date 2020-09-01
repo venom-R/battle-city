@@ -1,21 +1,28 @@
 import { Container } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
+import { Base } from "../Base/Base";
+import { IndestructibleBrick } from "../Brick/IndestructibleBrick";
+import { SimpleBrick } from "../Brick/SimpleBrick";
+import { Leaf } from "../Leaf/Leaf";
+import { PlayerTank } from "../Tank/PlayerTank";
+import { Water } from "../Water/Water";
 import { initialSchema } from "./initialSchema";
 
-const componentsType: Array<string> = [
-	"EMPTY",
-	EComponentType.SIMPLE_BRICK,
-	EComponentType.INDESTRUCTIBLE_BRICK,
-	EComponentType.WATER,
-	EComponentType.LEAVES,
-	EComponentType.BASE,
-	EComponentType.PLAYER_TANK,
+type TComponentConstructor = new (...params: Array<any>) => any;
+
+const componentConstructors: Array<TComponentConstructor> = [
+	null,
+	SimpleBrick,
+	IndestructibleBrick,
+	Water,
+	Leaf,
+	Base,
+	PlayerTank,
 ];
 
 export class MapGenerator {
 	private readonly _cellSize: number = 36;
 	private readonly _initialSchema: Array<Array<number>> = initialSchema;
-	private readonly _componentsType: Array<string> = componentsType;
+	private readonly _componentConstructors: Array<TComponentConstructor> = componentConstructors;
 	private _componentsCreator: Function;
 
 	constructor(componentsCreator: Function) {
@@ -25,10 +32,9 @@ export class MapGenerator {
 	public createSchema() {
 		return this._initialSchema.map((row: Array<number>, rowIndex: number) => {
 			return row.map((cell: number, cellIndex: number) => {
-				const componentType: string = this._componentsType[cell];
-				// TODO when all components will be available change this condition
-				if (componentType !== "EMPTY") {
-					const component: Container = this._componentsCreator(componentType);
+				const Component: TComponentConstructor = this._componentConstructors[cell];
+				if (Component !== null) {
+					const component: Container = this._componentsCreator(Component);
 					component.position.set(cellIndex * this._cellSize, rowIndex * this._cellSize);
 					return component;
 				}

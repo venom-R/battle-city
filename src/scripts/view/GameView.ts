@@ -1,5 +1,5 @@
+import { map } from "lodash";
 import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
-import { componentsFactory } from "../components/componentsFactory";
 import { COLORS } from "../constants/colors";
 import { SETTINGS } from "../constants/settings";
 import { ISize } from "../interface/ISize";
@@ -37,9 +37,14 @@ export class GameView {
 		};
 	}
 
-	public getTexture(textureName: string): Texture {
+	public getTextures(textureNames: string | Array<string>): Texture | Array<Texture> {
 		if (this.textures) {
-			return this.textures[textureName];
+			if (Array.isArray(textureNames)) {
+				return map(textureNames, (name: string) => {
+					return this.textures[name];
+				});
+			}
+			return this.textures[textureNames];
 		}
 		throw new Error("Textures has not been loaded!");
 	}
@@ -52,9 +57,14 @@ export class GameView {
 		component.y = (this.screenSize.height - component.height) / 2;
 	}
 
-	public createComponent(type: string, ...rest: any) {
-		const creator: Function = componentsFactory(this.getTexture, this);
-		return creator(type, ...rest);
+	public createComponent<T>(Component: new (...params: Array<any>) => T, ...params: Array<any>): T {
+		// @ts-ignore
+		const { requiredTextures } = Component;
+		if (requiredTextures) {
+			const textures: Texture | Array<Texture> = this.getTextures(requiredTextures);
+			return new Component(textures, ...params);
+		}
+		return new Component(...params);
 	}
 
 	private initializeApplication(): void {

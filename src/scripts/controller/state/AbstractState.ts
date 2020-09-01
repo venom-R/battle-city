@@ -21,10 +21,6 @@ export abstract class AbstractState implements IState {
 		this.model.stateMachine.transition(nextStateName);
 	}
 
-	public createComponent(type: string, ...rest: any) {
-		return this.view.createComponent(type, ...rest);
-	}
-
 	public abstract onEnter(): void;
 	public abstract onLeave(): void;
 }

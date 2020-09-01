@@ -8,7 +8,7 @@ export class LoadingState extends AbstractState implements IState {
 	public _loadingBar: LoadingBar;
 
 	public onEnter(): void {
-		this._loadingBar = this.createComponent(EComponentType.LOADING_BAR);
+		this._loadingBar = this.view.createComponent(LoadingBar);
 		this.view.alignComponentCenterX(this._loadingBar);
 		this.view.alignComponentCenterY(this._loadingBar);
 		this.scene.addChild(this._loadingBar);

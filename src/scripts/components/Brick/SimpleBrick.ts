@@ -1,5 +1,6 @@
 import { Sprite, Texture } from "pixi.js";
 import { EComponentType } from "../../enum/EComponentType";
+import { ETextureName } from "../../enum/ETextureName";
 import { IComponent } from "../../interface/IComponent";
 import { AbstractBrick } from "./AbstractBrick";
 
@@ -7,6 +8,12 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 	public isIndestructible: boolean = false;
 	public lifePoints: number = 1;
 	public readonly type: string = EComponentType.SIMPLE_BRICK;
+	public static readonly requiredTextures: string | Array<string> = [
+		ETextureName.SMALL_BRICK_1,
+		ETextureName.SMALL_BRICK_2,
+		ETextureName.SMALL_BRICK_3,
+		ETextureName.SMALL_BRICK_4,
+	];
 
 	constructor(textures: Array<Texture>) {
 		super();
