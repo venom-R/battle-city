@@ -1,4 +1,4 @@
-import { Button } from "../../components/Button/Button";
+import { AbstractButton } from "../../components/Button/AbstractButton";
 import { Title } from "../../components/Title/Title";
 import { EComponentType } from "../../enum/EComponentType";
 import { EStateName } from "../../enum/EStateName";
@@ -8,7 +8,7 @@ import { AbstractState } from "./AbstractState";
 
 export class MenuState extends AbstractState implements IState {
 	private _title: Title;
-	private _startButton: Button;
+	private _startButton: AbstractButton;
 
 	public onEnter(): void {
 		this.createTitle();

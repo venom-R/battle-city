@@ -1,35 +1,39 @@
-/*
- * Map - 25 x 20
- * 0 - empty space
- * 1 - brick tanks can destroy
- * 2 - brick tanks couldn't destroy
- * 3 - water
- * 4 - leaf
- * 5 - eagle (base)
- * 6 - player tank
- * */
+import { Container } from "pixi.js";
+import { EComponentType } from "../../enum/EComponentType";
+import { initialSchema } from "./initialSchema";
 
-const initialSchema = [
-	[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-	[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 2, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-	[2, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 2],
-	[2, 2, 2, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 2, 2, 2],
-	[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2],
-	[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-	[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+const componentsType: Array<string> = [
+	"EMPTY",
+	EComponentType.SIMPLE_BRICK,
+	EComponentType.INDESTRUCTIBLE_BRICK,
+	EComponentType.WATER,
+	EComponentType.LEAVES,
+	EComponentType.BASE,
+	EComponentType.PLAYER_TANK,
 ];
 
-export class MapGenerator {}
+export class MapGenerator {
+	private readonly _cellSize: number = 36;
+	private readonly _initialSchema: Array<Array<number>> = initialSchema;
+	private readonly _componentsType: Array<string> = componentsType;
+	private _componentsCreator: Function;
+
+	constructor(componentsCreator: Function) {
+		this._componentsCreator = componentsCreator;
+	}
+
+	public createSchema() {
+		return this._initialSchema.map((row: Array<number>, rowIndex: number) => {
+			return row.map((cell: number, cellIndex: number) => {
+				const componentType: string = this._componentsType[cell];
+				// TODO when all components will be available change this condition
+				if (componentType !== "EMPTY") {
+					const component: Container = this._componentsCreator(componentType);
+					component.position.set(cellIndex * this._cellSize, rowIndex * this._cellSize);
+					return component;
+				}
+				return 0;
+			});
+		});
+	}
+}
