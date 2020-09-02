@@ -1,5 +1,5 @@
-import { DisplayObject } from "pixi.js";
+import { Container } from "pixi.js";
 
-export interface IComponent extends DisplayObject {
+export interface IComponent extends Container {
 	type: string;
 }

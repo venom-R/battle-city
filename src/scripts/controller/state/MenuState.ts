@@ -1,9 +1,7 @@
 import { AbstractButton } from "../../components/Button/AbstractButton";
 import { StartButton } from "../../components/Button/StartButton";
 import { Title } from "../../components/Title/Title";
-import { EComponentType } from "../../enum/EComponentType";
 import { EStateName } from "../../enum/EStateName";
-import { ETextureName } from "../../enum/ETextureName";
 import { IState } from "../../interface/IState";
 import { AbstractState } from "./AbstractState";
 

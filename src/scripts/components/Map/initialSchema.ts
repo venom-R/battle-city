@@ -7,6 +7,7 @@
  * 4 - leaves
  * 5 - eagle (base)
  * 6 - player tank
+ * 7 - enemy tank
  * */
 
 export const initialSchema: Array<Array<number>> = [

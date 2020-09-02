@@ -1,4 +1,3 @@
-import { EComponentType } from "../../enum/EComponentType";
 import { EStateName } from "../../enum/EStateName";
 import { IState } from "../../interface/IState";
 import { LoadingBar } from "../../components/LoadingBar/LoadingBar";
