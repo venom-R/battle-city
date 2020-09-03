@@ -1,7 +1,7 @@
-import {EComponentType} from "../../enum/EComponentType";
-import {ETextureName} from "../../enum/ETextureName";
-import {IComponent} from "../../interface/IComponent";
-import {AbstractBrick} from "./AbstractBrick";
+import { EComponentType } from "../../enum/EComponentType";
+import { ETextureName } from "../../enum/ETextureName";
+import { IComponent } from "../../interface/IComponent";
+import { AbstractBrick } from "./AbstractBrick";
 
 export class IndestructibleBrick extends AbstractBrick implements IComponent {
 	public lifePoints: number = 1;

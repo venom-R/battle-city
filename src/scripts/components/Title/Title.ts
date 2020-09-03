@@ -1,7 +1,7 @@
-import {Text, TextStyle} from "pixi.js";
-import {EComponentType} from "../../enum/EComponentType";
-import {IComponent} from "../../interface/IComponent";
-import {AbstractComponent} from "../AbstractComponent/AbstractComponent";
+import { Text, TextStyle } from "pixi.js";
+import { EComponentType } from "../../enum/EComponentType";
+import { IComponent } from "../../interface/IComponent";
+import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 const style = new TextStyle({
 	fontFamily: "sans-serif",

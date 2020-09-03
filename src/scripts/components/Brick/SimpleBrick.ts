@@ -1,7 +1,7 @@
-import {EComponentType} from "../../enum/EComponentType";
-import {ETextureName} from "../../enum/ETextureName";
-import {IComponent} from "../../interface/IComponent";
-import {AbstractBrick} from "./AbstractBrick";
+import { EComponentType } from "../../enum/EComponentType";
+import { ETextureName } from "../../enum/ETextureName";
+import { IComponent } from "../../interface/IComponent";
+import { AbstractBrick } from "./AbstractBrick";
 
 export class SimpleBrick extends AbstractBrick implements IComponent {
 	public isIndestructible: boolean = false;

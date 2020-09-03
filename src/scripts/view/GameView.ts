@@ -1,9 +1,9 @@
-import {map} from "lodash";
-import {Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture} from "pixi.js";
-import {COLORS} from "../constants/colors";
-import {SETTINGS} from "../constants/settings";
-import {IComponent} from "../interface/IComponent";
-import {ISize} from "../interface/ISize";
+import { map } from "lodash";
+import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
+import { COLORS } from "../constants/colors";
+import { SETTINGS } from "../constants/settings";
+import { IComponent } from "../interface/IComponent";
+import { ISize } from "../interface/ISize";
 
 const APP_CONFIG = {
 	width: SETTINGS.WIDTH,

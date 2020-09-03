@@ -1,5 +1,5 @@
-import {Container, Sprite, Texture} from "pixi.js";
-import {IComponent} from "../../interface/IComponent";
+import { Container, Sprite, Texture } from "pixi.js";
+import { IComponent } from "../../interface/IComponent";
 
 export abstract class AbstractComponent extends Container implements IComponent {
 	public abstract type: string;
