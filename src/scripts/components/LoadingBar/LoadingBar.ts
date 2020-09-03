@@ -1,11 +1,11 @@
-import { Container } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
-import { IComponent } from "../../interface/IComponent";
-import { Rectangle } from "../../shapes/Rectangle";
-import { LoadingBarBG } from "./LoadingBarBG";
-import { LoadingBarProgress } from "./LoadingBarProgress";
+import {EComponentType} from "../../enum/EComponentType";
+import {IComponent} from "../../interface/IComponent";
+import {Rectangle} from "../../shapes/Rectangle";
+import {AbstractComponent} from "../AbstractComponent/AbstractComponent";
+import {LoadingBarBG} from "./LoadingBarBG";
+import {LoadingBarProgress} from "./LoadingBarProgress";
 
-export class LoadingBar extends Container implements IComponent {
+export class LoadingBar extends AbstractComponent implements IComponent {
 	public type: string = EComponentType.LOADING_BAR;
 	private readonly _bg: Rectangle;
 	private readonly _bar: Rectangle;

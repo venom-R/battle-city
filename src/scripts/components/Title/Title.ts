@@ -1,6 +1,7 @@
-import { Text, TextStyle } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
-import { IComponent } from "../../interface/IComponent";
+import {Text, TextStyle} from "pixi.js";
+import {EComponentType} from "../../enum/EComponentType";
+import {IComponent} from "../../interface/IComponent";
+import {AbstractComponent} from "../AbstractComponent/AbstractComponent";
 
 const style = new TextStyle({
 	fontFamily: "sans-serif",
@@ -10,10 +11,15 @@ const style = new TextStyle({
 	align: "center",
 });
 
-export class Title extends Text implements IComponent {
+export class Title extends AbstractComponent implements IComponent {
 	public type: string = EComponentType.TITLE;
+	public _content: string;
+	private _text;
 
-	constructor(text: string) {
-		super(text, style);
+	constructor(content: string) {
+		super();
+		this._content = content;
+		this._text = new Text(content, style);
+		this.addChild(this._text);
 	}
 }

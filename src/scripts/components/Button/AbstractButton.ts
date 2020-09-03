@@ -1,11 +1,11 @@
-import { Sprite, Texture } from "pixi.js";
-import { IComponent } from "../../interface/IComponent";
+import {IComponent} from "../../interface/IComponent";
+import {AbstractComponent} from "../AbstractComponent/AbstractComponent";
 
-export abstract class AbstractButton extends Sprite implements IComponent {
+export abstract class AbstractButton extends AbstractComponent implements IComponent {
 	abstract type: string;
 
-	protected constructor(texture: Texture) {
-		super(texture);
+	protected constructor() {
+		super();
 		this.buttonMode = true;
 		this.interactive = true;
 	}

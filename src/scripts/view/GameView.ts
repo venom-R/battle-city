@@ -1,8 +1,9 @@
-import { map } from "lodash";
-import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
-import { COLORS } from "../constants/colors";
-import { SETTINGS } from "../constants/settings";
-import { ISize } from "../interface/ISize";
+import {map} from "lodash";
+import {Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture} from "pixi.js";
+import {COLORS} from "../constants/colors";
+import {SETTINGS} from "../constants/settings";
+import {IComponent} from "../interface/IComponent";
+import {ISize} from "../interface/ISize";
 
 const APP_CONFIG = {
 	width: SETTINGS.WIDTH,
@@ -57,12 +58,17 @@ export class GameView {
 		component.y = (this.screenSize.height - component.height) / 2;
 	}
 
-	public createComponent<T>(Component: new (...params: Array<any>) => T, ...params: Array<any>): T {
+	public createComponent<T extends IComponent>(
+		Component: new (...params: Array<any>) => T,
+		...params: Array<any>
+	): T {
 		// @ts-ignore
 		const { requiredTextures } = Component;
 		if (requiredTextures) {
 			const textures: Texture | Array<Texture> = this.getTextures(requiredTextures);
-			return new Component(textures, ...params);
+			const component = new Component(...params);
+			Array.isArray(textures) ? component.setTextureSet(textures) : component.setTexture(textures);
+			return component;
 		}
 		return new Component(...params);
 	}
