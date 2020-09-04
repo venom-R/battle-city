@@ -36,7 +36,7 @@ export class GameState extends AbstractState implements IState {
 
 	private generateComponents(): void {
 		this.map = this.mapGenerator.generate(Map);
-		console.log(this.mapGenerator);
+		// console.log(this.mapGenerator);
 		this.player = this.map.player;
 		this.enemies = this.map.enemies;
 		this.base = this.map.base;
