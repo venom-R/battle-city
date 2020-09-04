@@ -3,8 +3,9 @@ import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractTank extends AbstractComponent implements IComponent {
 	abstract type: string;
-	protected vx: number = 0;
-	protected vy: number = 0;
+	public velocity: number = 1;
+	public vx: number = 0;
+	public vy: number = 0;
 
 	public setTexture(texture: PIXI.Texture) {
 		super.setTexture(texture);

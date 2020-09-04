@@ -4,7 +4,6 @@ import { Map } from "../../components/Map/Map";
 import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
-import { EControls } from "../../enum/EControls";
 import { IState } from "../../interface/IState";
 import { KeyboardInteraction } from "../../util/KeyboardInteraction";
 import { AbstractState } from "./AbstractState";
@@ -19,7 +18,8 @@ export class GameState extends AbstractState implements IState {
 
 	public onEnter(): void {
 		this.generateComponents();
-		this.player.addControl(this.model.playerVelocity);
+		this.player.velocity = this.model.playerVelocity;
+		this.player.addControl();
 		this.scene.addChild(this.map);
 		this.scene.visible = true;
 	}
