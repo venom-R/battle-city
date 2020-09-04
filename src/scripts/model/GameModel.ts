@@ -8,4 +8,6 @@ export class GameModel {
 	public readonly emitter = new Emitter();
 	public loadingProgress: number = 0;
 	public isAssetsLoaded: boolean = false;
+	public playerVelocity: number = 1;
+	public enemyVelocity: number = 1;
 }

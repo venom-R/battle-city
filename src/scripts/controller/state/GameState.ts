@@ -1,9 +1,12 @@
+import { Dictionary } from "lodash";
 import { Base } from "../../components/Base/Base";
 import { Map } from "../../components/Map/Map";
 import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
+import { EControls } from "../../enum/EControls";
 import { IState } from "../../interface/IState";
+import { KeyboardInteraction } from "../../util/KeyboardInteraction";
 import { AbstractState } from "./AbstractState";
 
 export class GameState extends AbstractState implements IState {
@@ -12,15 +15,18 @@ export class GameState extends AbstractState implements IState {
 	public enemies: Array<EnemyTank>;
 	public base: Base;
 	public map: Map;
+	public controls: Dictionary<KeyboardInteraction> = {};
 
 	public onEnter(): void {
 		this.generateComponents();
+		this.player.addControl(this.model.playerVelocity);
 		this.scene.addChild(this.map);
 		this.scene.visible = true;
 	}
 
 	public onLeave(): void {
 		this.scene.visible = false;
+		this.player.removeControl();
 	}
 
 	public updateFrame(delta?: number): void {
