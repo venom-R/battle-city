@@ -1,6 +1,7 @@
 import { IPoint, Point } from "pixi.js";
 import { EComponentType } from "../../enum/EComponentType";
 import { IComponent } from "../../interface/IComponent";
+import { IMapProps } from "../../interface/IMapProps";
 import { Base } from "../Base/Base";
 import { IndestructibleBrick } from "../Brick/IndestructibleBrick";
 import { SimpleBrick } from "../Brick/SimpleBrick";
@@ -25,12 +26,12 @@ const componentConstructors: Array<TComponentConstructor> = [
 ];
 
 export class MapGenerator {
-	public playerTank: PlayerTank;
-	public base: Base;
-	public waterComponents: Array<Water> = [];
-	public enemyTanks: Array<EnemyTank> = [];
-	public schema: Array<IComponent> = [];
-	public emptyCells: Array<IPoint> = [];
+	private _player: PlayerTank;
+	private _base: Base;
+	private _waterComponents: Array<Water> = [];
+	private _enemies: Array<EnemyTank> = [];
+	private _schema: Array<IComponent> = [];
+	private _emptyCells: Array<IPoint> = [];
 	private readonly _cellSize: number = 36;
 	private readonly _initialSchema: Array<Array<number>> = initialSchema;
 	private readonly _componentConstructors: Array<TComponentConstructor> = componentConstructors;
@@ -40,12 +41,12 @@ export class MapGenerator {
 		this._componentsCreator = componentsCreator;
 	}
 
-	public createMap(Map: new (generator: this) => Map): Map {
+	public generate(Map: new (generator: IMapProps) => Map): Map {
 		this.createSchema();
-		return new Map(this);
+		return new Map(this.mapProps);
 	}
 
-	private createSchema(): Array<IComponent> {
+	private createSchema(): void {
 		this._initialSchema.forEach((row: Array<number>, rowIndex: number) => {
 			return row.forEach((cell: number, cellIndex: number) => {
 				const Component: TComponentConstructor = this._componentConstructors[cell];
@@ -53,34 +54,44 @@ export class MapGenerator {
 				if (Component !== null) {
 					const component: IComponent = this._componentsCreator(Component);
 					component.position.set(point.x, point.y);
-					this.schema.push(component);
+					this._schema.push(component);
 					this.groupComponents(component);
 				} else {
 					this.addEmptyCell(point);
 				}
 			});
 		});
-		return this.schema;
 	}
 
 	private groupComponents(component: IComponent): void {
 		switch (component.type) {
 			case EComponentType.PLAYER_TANK:
-				this.playerTank = component as PlayerTank;
+				this._player = component as PlayerTank;
 				break;
 			case EComponentType.BASE:
-				this.base = component as Base;
+				this._base = component as Base;
 				break;
 			case EComponentType.WATER:
-				this.waterComponents.push(component as Water);
+				this._waterComponents.push(component as Water);
 				break;
 			case EComponentType.ENEMY_TANK:
-				this.enemyTanks.push(component as EnemyTank);
+				this._enemies.push(component as EnemyTank);
 				break;
 		}
 	}
 
 	private addEmptyCell(point: IPoint) {
-		this.emptyCells.push(point);
+		this._emptyCells.push(point);
+	}
+
+	private get mapProps(): IMapProps {
+		return {
+			player: this._player,
+			base: this._base,
+			waterComponents: this._waterComponents,
+			enemies: this._enemies,
+			schema: this._schema,
+			emptyCells: this._emptyCells,
+		};
 	}
 }

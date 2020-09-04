@@ -8,8 +8,8 @@ import { AbstractState } from "./AbstractState";
 
 export class GameState extends AbstractState implements IState {
 	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
-	public playerTank: PlayerTank;
-	public enemyTanks: Array<EnemyTank>;
+	public player: PlayerTank;
+	public enemies: Array<EnemyTank>;
 	public base: Base;
 	public map: Map;
 
@@ -23,13 +23,17 @@ export class GameState extends AbstractState implements IState {
 		this.scene.visible = false;
 	}
 
-	public updateFrame(delta?: number): void {}
+	public updateFrame(delta?: number): void {
+		this.player.move();
+		// this.enemyTanks.forEach((tank: EnemyTank) => tank.move());
+	}
 
 	private generateComponents(): void {
-		this.map = this.mapGenerator.createMap(Map);
-		this.playerTank = this.mapGenerator.playerTank;
-		this.enemyTanks = this.mapGenerator.enemyTanks;
-		this.base = this.mapGenerator.base;
+		this.map = this.mapGenerator.generate(Map);
+		console.log(this.mapGenerator);
+		this.player = this.map.player;
+		this.enemies = this.map.enemies;
+		this.base = this.map.base;
 		this.view.alignComponentCenterX(this.map);
 		this.view.alignComponentCenterY(this.map);
 	}
