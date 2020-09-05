@@ -32,6 +32,8 @@ export class MapGenerator {
 	private _enemies: Array<EnemyTank> = [];
 	private _schema: Array<IComponent> = [];
 	private _emptyCells: Array<IPoint> = [];
+	private _walls: Array<SimpleBrick | IndestructibleBrick> = [];
+	private _leaves: Array<Leaf> = [];
 	private readonly _cellSize: number = 36;
 	private readonly _initialSchema: Array<Array<number>> = initialSchema;
 	private readonly _componentConstructors: Array<TComponentConstructor> = componentConstructors;
@@ -77,6 +79,13 @@ export class MapGenerator {
 			case EComponentType.ENEMY_TANK:
 				this._enemies.push(component as EnemyTank);
 				break;
+			case EComponentType.SIMPLE_BRICK:
+			case EComponentType.INDESTRUCTIBLE_BRICK:
+				this._walls.push(component as SimpleBrick | IndestructibleBrick);
+				break;
+			case EComponentType.LEAVES:
+				this._leaves.push(component as Leaf);
+				break;
 		}
 	}
 
@@ -92,6 +101,8 @@ export class MapGenerator {
 			enemies: this._enemies,
 			schema: this._schema,
 			emptyCells: this._emptyCells,
+			walls: this._walls,
+			leaves: this._leaves,
 		};
 	}
 }
