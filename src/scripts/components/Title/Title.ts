@@ -12,7 +12,7 @@ const style = new TextStyle({
 });
 
 export class Title extends AbstractComponent implements IComponent {
-	public type: string = EComponentType.TITLE;
+	public name: string = EComponentType.TITLE;
 	public _content: string;
 	private _text;
 

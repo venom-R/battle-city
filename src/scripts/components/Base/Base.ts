@@ -4,7 +4,7 @@ import { IComponent } from "../../interface/IComponent";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export class Base extends AbstractComponent implements IComponent {
-	public type: string = EComponentType.BASE;
+	public name: string = EComponentType.BASE;
 	public lifePoints: number = 1;
 	public static readonly requiredTextures: string | Array<string> = ETextureName.BASE;
 }

@@ -64,7 +64,7 @@ export class MapGenerator {
 	}
 
 	private groupComponents(component: IComponent): void {
-		switch (component.type) {
+		switch (component.name) {
 			case EComponentType.PLAYER_TANK:
 				this._player = component as PlayerTank;
 				break;

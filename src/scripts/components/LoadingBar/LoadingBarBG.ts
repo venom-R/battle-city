@@ -1,4 +1,4 @@
-import { Rectangle } from "../../shapes/Rectangle";
+import { Rectangle } from "./Rectangle";
 
 export class LoadingBarBG extends Rectangle {
 	public defaultWidth: number = 300;

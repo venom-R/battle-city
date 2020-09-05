@@ -9,7 +9,7 @@ import { PlayerTank } from "../Tank/PlayerTank";
 import { Water } from "../Water/Water";
 
 export class Map extends AbstractComponent implements IComponent {
-	public type: string = EComponentType.MAP;
+	public name: string = EComponentType.MAP;
 	public player: PlayerTank;
 	public base: Base;
 	public waterComponents: Array<Water>;

@@ -4,7 +4,7 @@ import { IComponent } from "../../interface/IComponent";
 import { AbstractTank } from "./AbstractTank";
 
 export class EnemyTank extends AbstractTank implements IComponent {
-	public type: string = EComponentType.ENEMY_TANK;
+	public name: string = EComponentType.ENEMY_TANK;
 	public static readonly requiredTextures: string | Array<string> = [
 		ETextureName.ENEMY_BLUE,
 		ETextureName.ENEMY_RED,

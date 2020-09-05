@@ -3,7 +3,7 @@ import { IComponent } from "../../interface/IComponent";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractTank extends AbstractComponent implements IComponent {
-	abstract type: string;
+	abstract name: string;
 	public velocity: number = 1;
 	public vx: number = 0;
 	public vy: number = 0;
