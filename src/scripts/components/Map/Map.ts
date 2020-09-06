@@ -34,6 +34,7 @@ export class Map extends AbstractComponent implements IComponent {
 		this.walls = props.walls;
 		this.leaves = props.leaves;
 		this.drawComponents();
+		console.log(this.enemies);
 	}
 
 	private drawComponents(): void {

@@ -1,4 +1,5 @@
 import { EControls } from "../../enum/EControls";
+import { ETankDirection } from "../../enum/ETankDirection";
 import { ITankController } from "../../interface/ITankController";
 import { KeyboardInteraction } from "../../util/KeyboardInteraction";
 import { AbstractTank } from "./AbstractTank";
@@ -23,11 +24,11 @@ export class TankKeyboardController implements ITankController {
 		this._controls.up = new KeyboardInteraction({
 			key: EControls.UP,
 			onPress: () => {
-				this._tank.goUp(this.velocity);
+				this._tank.setDirection(ETankDirection.UP);
 			},
 			onRelease: () => {
-				if (!this._controls.down.isDown && this._tank._vx === 0) {
-					this._tank._vy = 0;
+				if (!this._controls.down.isDown && this._tank.vx === 0) {
+					this._tank.vy = 0;
 				}
 			},
 		});
@@ -35,11 +36,11 @@ export class TankKeyboardController implements ITankController {
 		this._controls.down = new KeyboardInteraction({
 			key: EControls.DOWN,
 			onPress: () => {
-				this._tank.goDown(this.velocity);
+				this._tank.setDirection(ETankDirection.DOWN);
 			},
 			onRelease: () => {
-				if (!this._controls.up.isDown && this._tank._vx === 0) {
-					this._tank._vy = 0;
+				if (!this._controls.up.isDown && this._tank.vx === 0) {
+					this._tank.vy = 0;
 				}
 			},
 		});
@@ -47,11 +48,11 @@ export class TankKeyboardController implements ITankController {
 		this._controls.left = new KeyboardInteraction({
 			key: EControls.LEFT,
 			onPress: () => {
-				this._tank.goLeft(this.velocity);
+				this._tank.setDirection(ETankDirection.LEFT);
 			},
 			onRelease: () => {
-				if (!this._controls.right.isDown && this._tank._vy === 0) {
-					this._tank._vx = 0;
+				if (!this._controls.right.isDown && this._tank.vy === 0) {
+					this._tank.vx = 0;
 				}
 			},
 		});
@@ -59,11 +60,11 @@ export class TankKeyboardController implements ITankController {
 		this._controls.right = new KeyboardInteraction({
 			key: EControls.RIGHT,
 			onPress: () => {
-				this._tank.goRight(this.velocity);
+				this._tank.setDirection(ETankDirection.RIGHT);
 			},
 			onRelease: () => {
-				if (!this._controls.left.isDown && this._tank._vy === 0) {
-					this._tank._vx = 0;
+				if (!this._controls.left.isDown && this._tank.vy === 0) {
+					this._tank.vx = 0;
 				}
 			},
 		});
@@ -81,9 +82,5 @@ export class TankKeyboardController implements ITankController {
 		this._controls.down.unsubscribe();
 		this._controls.left.unsubscribe();
 		this._controls.right.unsubscribe();
-	}
-
-	private get velocity(): number {
-		return this._tank.velocity;
 	}
 }

@@ -1,5 +1,6 @@
 import { IPoint, Point } from "pixi.js";
 import { EComponentType } from "../../enum/EComponentType";
+import { ETankDirection } from "../../enum/ETankDirection";
 import { IComponent } from "../../interface/IComponent";
 import { IMapProps } from "../../interface/IMapProps";
 import { TBrick } from "../../type/TBrick";
@@ -44,7 +45,7 @@ export class MapGenerator {
 		this._componentsCreator = componentsCreator;
 	}
 
-	public generate(Map: new (generator: IMapProps) => Map): Map {
+	public generateMap(Map: new (generator: IMapProps) => Map): Map {
 		this.createSchema();
 		return new Map(this.mapProps);
 	}
@@ -57,6 +58,10 @@ export class MapGenerator {
 				if (Component !== null) {
 					const component: IComponent = this._componentsCreator(Component);
 					component.position.set(point.x, point.y);
+					if (component.name === EComponentType.ENEMY_TANK) {
+						(component as EnemyTank).setDirection(ETankDirection.DOWN);
+						// (component as EnemyTank).setRandomDirection();
+					}
 					this._schema.push(component);
 					this.groupComponents(component);
 				} else {

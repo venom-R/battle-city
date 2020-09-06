@@ -8,8 +8,8 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	public abstract name: string;
 	protected abstract stopMoveAfterHit: boolean;
 	public velocity: number = 1;
-	protected _vx: number = 0;
-	protected _vy: number = 0;
+	public vx: number = 0;
+	public vy: number = 0;
 
 	public checkCollision(component: IComponent): boolean {
 		return CollisionDetector.hitTestRectangle(this, component, this.stopMoveAfterHit);
@@ -42,40 +42,30 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	}
 
 	public move(): void {
-		this.x += this._vx;
-		this.y += this._vy;
+		this.x += this.vx;
+		this.y += this.vy;
 	}
 
 	public stopMove() {
-		this._vx = 0;
-		this._vy = 0;
-	}
-
-	public goUp(velocity: number): void {
-		this._vx = 0;
-		this._vy = -velocity;
-		this.setDirection(ETankDirection.UP);
-	}
-
-	public goDown(velocity: number): void {
-		this._vx = 0;
-		this._vy = velocity;
-		this.setDirection(ETankDirection.DOWN);
-	}
-
-	public goLeft(velocity: number): void {
-		this._vx = -velocity;
-		this._vy = 0;
-		this.setDirection(ETankDirection.LEFT);
-	}
-
-	public goRight(velocity: number): void {
-		this._vx = velocity;
-		this._vy = 0;
-		this.setDirection(ETankDirection.RIGHT);
+		this.vx = 0;
+		this.vy = 0;
 	}
 
 	public setDirection(direction: number): void {
+		switch (direction) {
+			case ETankDirection.UP:
+				this.goUp(this.velocity);
+				break;
+			case ETankDirection.DOWN:
+				this.goDown(this.velocity);
+				break;
+			case ETankDirection.LEFT:
+				this.goLeft(this.velocity);
+				break;
+			case ETankDirection.RIGHT:
+				this.goRight(this.velocity);
+				break;
+		}
 		if (this.image.angle !== direction) {
 			this.image.angle = direction;
 		}
@@ -92,8 +82,28 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 		return ETankDirection.UP;
 	}
 
-	private configureImage(): void {
+	protected configureImage(): void {
 		this.image.anchor.set(0.5, 0.5);
 		this.image.position.set(this.image.width / 2, this.image.height / 2);
+	}
+
+	protected goUp(velocity: number): void {
+		this.vx = 0;
+		this.vy = -velocity;
+	}
+
+	protected goDown(velocity: number): void {
+		this.vx = 0;
+		this.vy = velocity;
+	}
+
+	protected goLeft(velocity: number): void {
+		this.vx = -velocity;
+		this.vy = 0;
+	}
+
+	protected goRight(velocity: number): void {
+		this.vx = velocity;
+		this.vy = 0;
 	}
 }

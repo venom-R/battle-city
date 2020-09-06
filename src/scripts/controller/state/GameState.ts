@@ -1,4 +1,3 @@
-import { Dictionary } from "lodash";
 import { Base } from "../../components/Base/Base";
 import { Map } from "../../components/Map/Map";
 import { MapGenerator } from "../../components/Map/MapGenerator";
@@ -6,7 +5,6 @@ import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { IState } from "../../interface/IState";
 import { TBrick } from "../../type/TBrick";
-import { KeyboardInteraction } from "../../util/KeyboardInteraction";
 import { AbstractState } from "./AbstractState";
 
 export class GameState extends AbstractState implements IState {
@@ -21,6 +19,7 @@ export class GameState extends AbstractState implements IState {
 		this.generateComponents();
 		this.player.velocity = this.model.playerVelocity;
 		this.player.addControl();
+		this.enemies.forEach((enemy: EnemyTank) => (enemy.velocity = this.model.enemyVelocity));
 		this.scene.addChild(this.map);
 		this.scene.visible = true;
 	}
@@ -37,11 +36,11 @@ export class GameState extends AbstractState implements IState {
 
 		this.player.move();
 
-		// this.enemyTanks.forEach((tank: EnemyTank) => tank.move());
+		// this.enemies.forEach((tank: EnemyTank) => tank.move());
 	}
 
 	private generateComponents(): void {
-		this.map = this.mapGenerator.generate(Map);
+		this.map = this.mapGenerator.generateMap(Map);
 		this.player = this.map.player;
 		this.enemies = this.map.enemies;
 		this.base = this.map.base;
