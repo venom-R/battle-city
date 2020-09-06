@@ -36,7 +36,10 @@ export class GameState extends AbstractState implements IState {
 
 		this.player.move();
 
-		// this.enemies.forEach((tank: EnemyTank) => tank.move());
+		this.enemies.forEach((enemy: EnemyTank) => {
+			this.player.blockCollision(enemy);
+			// enemy.move()
+		});
 	}
 
 	private generateComponents(): void {
