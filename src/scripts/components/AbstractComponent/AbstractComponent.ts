@@ -20,4 +20,21 @@ export abstract class AbstractComponent extends Container implements IComponent 
 			this.imageSet.push(new Sprite(texture));
 		});
 	}
+
+	// Getters for collision detection
+	public get halfWidth(): number {
+		return this.width / 2;
+	}
+
+	public get halfHeight(): number {
+		return this.height / 2;
+	}
+
+	public get centerX(): number {
+		return this.x + this.halfWidth;
+	}
+
+	public get centerY(): number {
+		return this.y + this.halfHeight;
+	}
 }

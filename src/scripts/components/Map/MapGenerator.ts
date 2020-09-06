@@ -2,6 +2,7 @@ import { IPoint, Point } from "pixi.js";
 import { EComponentType } from "../../enum/EComponentType";
 import { IComponent } from "../../interface/IComponent";
 import { IMapProps } from "../../interface/IMapProps";
+import { TBrick } from "../../type/TBrick";
 import { Base } from "../Base/Base";
 import { IndestructibleBrick } from "../Brick/IndestructibleBrick";
 import { SimpleBrick } from "../Brick/SimpleBrick";
@@ -32,7 +33,7 @@ export class MapGenerator {
 	private _enemies: Array<EnemyTank> = [];
 	private _schema: Array<IComponent> = [];
 	private _emptyCells: Array<IPoint> = [];
-	private _walls: Array<SimpleBrick | IndestructibleBrick> = [];
+	private _walls: Array<TBrick> = [];
 	private _leaves: Array<Leaf> = [];
 	private readonly _cellSize: number = 36;
 	private readonly _initialSchema: Array<Array<number>> = initialSchema;
@@ -81,7 +82,7 @@ export class MapGenerator {
 				break;
 			case EComponentType.SIMPLE_BRICK:
 			case EComponentType.INDESTRUCTIBLE_BRICK:
-				this._walls.push(component as SimpleBrick | IndestructibleBrick);
+				this._walls.push(component as TBrick);
 				break;
 			case EComponentType.LEAVES:
 				this._leaves.push(component as Leaf);

@@ -16,6 +16,7 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 
 	public destroy(): void {
 		// TODO maybe here should be explode animation
+		this.x = -500;
 		this.visible = false;
 	}
 

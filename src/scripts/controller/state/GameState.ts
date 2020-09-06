@@ -5,6 +5,7 @@ import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { IState } from "../../interface/IState";
+import { TBrick } from "../../type/TBrick";
 import { KeyboardInteraction } from "../../util/KeyboardInteraction";
 import { AbstractState } from "./AbstractState";
 
@@ -12,9 +13,9 @@ export class GameState extends AbstractState implements IState {
 	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
 	public player: PlayerTank;
 	public enemies: Array<EnemyTank>;
+	public walls: Array<TBrick>;
 	public base: Base;
 	public map: Map;
-	public controls: Dictionary<KeyboardInteraction> = {};
 
 	public onEnter(): void {
 		this.generateComponents();
@@ -30,16 +31,21 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	public updateFrame(delta?: number): void {
+		this.walls.forEach((brick: TBrick) => {
+			this.player.blockCollision(brick);
+		});
+
 		this.player.move();
+
 		// this.enemyTanks.forEach((tank: EnemyTank) => tank.move());
 	}
 
 	private generateComponents(): void {
 		this.map = this.mapGenerator.generate(Map);
-		// console.log(this.mapGenerator);
 		this.player = this.map.player;
 		this.enemies = this.map.enemies;
 		this.base = this.map.base;
+		this.walls = this.map.walls;
 		this.view.alignComponentCenterX(this.map);
 		this.view.alignComponentCenterY(this.map);
 	}

@@ -26,8 +26,8 @@ export class TankKeyboardController implements ITankController {
 				this._tank.goUp(this.velocity);
 			},
 			onRelease: () => {
-				if (!this._controls.down.isDown && this._tank.vx === 0) {
-					this._tank.vy = 0;
+				if (!this._controls.down.isDown && this._tank._vx === 0) {
+					this._tank._vy = 0;
 				}
 			},
 		});
@@ -38,8 +38,8 @@ export class TankKeyboardController implements ITankController {
 				this._tank.goDown(this.velocity);
 			},
 			onRelease: () => {
-				if (!this._controls.up.isDown && this._tank.vx === 0) {
-					this._tank.vy = 0;
+				if (!this._controls.up.isDown && this._tank._vx === 0) {
+					this._tank._vy = 0;
 				}
 			},
 		});
@@ -50,8 +50,8 @@ export class TankKeyboardController implements ITankController {
 				this._tank.goLeft(this.velocity);
 			},
 			onRelease: () => {
-				if (!this._controls.right.isDown && this._tank.vy === 0) {
-					this._tank.vx = 0;
+				if (!this._controls.right.isDown && this._tank._vy === 0) {
+					this._tank._vx = 0;
 				}
 			},
 		});
@@ -62,8 +62,8 @@ export class TankKeyboardController implements ITankController {
 				this._tank.goRight(this.velocity);
 			},
 			onRelease: () => {
-				if (!this._controls.left.isDown && this._tank.vy === 0) {
-					this._tank.vx = 0;
+				if (!this._controls.left.isDown && this._tank._vy === 0) {
+					this._tank._vx = 0;
 				}
 			},
 		});

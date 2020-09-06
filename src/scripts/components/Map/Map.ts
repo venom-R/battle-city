@@ -2,6 +2,7 @@ import { IPoint } from "pixi.js";
 import { EComponentType } from "../../enum/EComponentType";
 import { IComponent } from "../../interface/IComponent";
 import { IMapProps } from "../../interface/IMapProps";
+import { TBrick } from "../../type/TBrick";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 import { Base } from "../Base/Base";
 import { IndestructibleBrick } from "../Brick/IndestructibleBrick";
@@ -19,7 +20,7 @@ export class Map extends AbstractComponent implements IComponent {
 	public enemies: Array<EnemyTank>;
 	public schema: Array<IComponent>;
 	public emptyCells: Array<IPoint>;
-	public walls: Array<SimpleBrick | IndestructibleBrick>;
+	public walls: Array<TBrick>;
 	public leaves: Array<Leaf>;
 
 	constructor(props: IMapProps) {
@@ -36,6 +37,6 @@ export class Map extends AbstractComponent implements IComponent {
 	}
 
 	private drawComponents(): void {
-		this.addChild(...this.walls, ...this.waterComponents, ...this.leaves, this.base, this.player);
+		this.addChild(...this.walls, ...this.waterComponents, ...this.leaves, this.base, ...this.enemies, this.player);
 	}
 }
