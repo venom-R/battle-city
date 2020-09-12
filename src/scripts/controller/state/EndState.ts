@@ -1,14 +1,27 @@
+import { Title } from "../../components/Title/Title";
 import { IState } from "../../interface/IState";
 import { AbstractState } from "./AbstractState";
 
 export class EndState extends AbstractState implements IState {
+	private _title: Title;
+
 	public onEnter(): void {
-		console.log("EndState onEnter");
+		this.createTitle();
+		this.scene.addChild(this._title);
+		this.view.alignComponentCenterY(this.scene);
+		this.scene.visible = true;
+		console.log(`You scored ${this.model.totalPoints} points`);
 	}
 
 	public onLeave(): void {
-		console.log("EndState onLeave");
+		this.scene.visible = false;
 	}
 
 	public updateFrame(delta: number): void {}
+
+	private createTitle(): void {
+		const content: string = this.model.isWin ? "You win!" : "You lose!";
+		this._title = this.view.createComponent(Title, content);
+		this.view.alignComponentCenterX(this._title);
+	}
 }
