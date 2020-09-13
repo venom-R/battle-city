@@ -44,8 +44,8 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 		this.position.set(initialPoint.x, initialPoint.y);
 	}
 
-	public setDirection(tank: TTank): void {
-		this.movement.setDirection(tank.directionAngle);
+	public setDirection(direction: number): void {
+		this.movement.setDirection(direction);
 	}
 
 	protected getInitialPoint(tank: TTank): IPoint {

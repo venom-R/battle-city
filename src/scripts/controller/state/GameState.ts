@@ -134,7 +134,7 @@ export class GameState extends AbstractState implements IState {
 				: this.view.createComponent(EnemyBullet);
 		bullet.velocity = this.model.bulletVelocity;
 		bullet.setInitialPoint(tank);
-		bullet.setDirection(tank);
+		bullet.setDirection(tank.directionAngle);
 		this.map.addChild(bullet);
 		this.bullets.set(bullet.id, bullet);
 	}
