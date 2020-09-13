@@ -12,7 +12,6 @@ const tankTextureNames: Array<string> = [ETextureName.ENEMY_BLUE, ETextureName.E
 export class EnemyTank extends AbstractTank implements IMovingComponent {
 	public name: string = EComponentName.ENEMY_TANK;
 	public static readonly requiredTextures: string | Array<string> = tankTextureNames;
-	protected stopMoveAfterHit: boolean = true;
 
 	public setTextureSet(texture: Array<Texture>): void {
 		const randomTexture: Texture = randomItemInArray(texture);

@@ -5,6 +5,7 @@ import { IComponent } from "../../interface/IComponent";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export class Base extends AbstractComponent implements IComponent {
+	public isDestroyed: boolean = false;
 	public name: string = EComponentName.BASE;
 	public lifePoints: number = 1;
 	public static readonly requiredTextures: string | Array<string> = ETextureName.BASE;
@@ -20,5 +21,6 @@ export class Base extends AbstractComponent implements IComponent {
 		this.visible = false;
 		this.x = -100;
 		this.emit(EEventName.BASE_DESTROYED);
+		this.isDestroyed = true;
 	}
 }

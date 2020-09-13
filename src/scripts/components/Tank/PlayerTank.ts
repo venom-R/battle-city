@@ -9,7 +9,6 @@ export class PlayerTank extends AbstractTank implements IMovingComponent {
 	public name: string = EComponentName.PLAYER_TANK;
 	public static readonly requiredTextures: string | Array<string> = ETextureName.PLAYER_TANK;
 	private _keyboardController: ITankController;
-	protected stopMoveAfterHit: boolean = true;
 
 	public addControl() {
 		this._keyboardController = new TankKeyboardController(this);

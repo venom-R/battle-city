@@ -39,21 +39,7 @@ export class MovementService {
 	public preventCollision(component: IComponent): void {
 		if (this.context.checkCollision(component)) {
 			const collision: string = CollisionDetector.identifyHitSide(this.context, component);
-
-			switch (collision) {
-				case "left":
-					this.context.x = component.x + component.width + 1;
-					break;
-				case "top":
-					this.context.y = component.y + component.height + 1;
-					break;
-				case "right":
-					this.context.x = component.x - this.context.width - 1;
-					break;
-				case "bottom":
-					this.context.y = component.y - this.context.height - 1;
-					break;
-			}
+			CollisionDetector.preventCollision(this.context, component, collision);
 		}
 	}
 

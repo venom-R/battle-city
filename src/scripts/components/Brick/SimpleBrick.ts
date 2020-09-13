@@ -15,10 +15,10 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 	];
 
 	public break(): void {
-		// TODO maybe here should be explode animation
 		this.x *= -1;
 		this.y *= -1;
 		this.visible = false;
+		this.isDestroyed = true;
 	}
 
 	public getDamage(): void {

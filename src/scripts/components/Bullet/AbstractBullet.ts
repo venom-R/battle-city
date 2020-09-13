@@ -1,4 +1,5 @@
 import { IPoint, Point } from "pixi.js";
+import { EComponentName } from "../../enum/EComponentName";
 import { ETankDirection } from "../../enum/ETankDirection";
 import { IComponent, IMovingComponent } from "../../interface/IComponent";
 import { CollisionDetector } from "../../util/CollisionDetector";
@@ -10,11 +11,14 @@ import { PlayerTank } from "../Tank/PlayerTank";
 type TTank = PlayerTank | EnemyTank;
 
 export abstract class AbstractBullet extends AbstractComponent implements IMovingComponent {
+	public isDestroyed: boolean = false;
 	public vx: number = 0;
 	public vy: number = 0;
 	public velocity = 1;
 	public abstract directionAngle: number;
 	protected readonly movement = new MovementService(this);
+
+	public abstract isFriendlyTarget(target: IComponent): boolean;
 
 	public checkCollision(component: IComponent): boolean {
 		return CollisionDetector.hitTestRectangle(this, component);
@@ -24,6 +28,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 		// todo explode animation
 		this.x = -100;
 		this.visible = false;
+		this.isDestroyed = true;
 	}
 
 	public move(delta: number): void {

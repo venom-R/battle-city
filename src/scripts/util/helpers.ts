@@ -1,5 +1,5 @@
 import { includes, random } from "lodash";
-import { IComponent, IMovingComponent } from "../interface/IComponent";
+import { IComponent } from "../interface/IComponent";
 import { TWorkingArea } from "../type/TWorkingArea";
 
 export function randomItemInArray<T>(array: Array<T>): T {

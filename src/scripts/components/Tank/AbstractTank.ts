@@ -13,7 +13,6 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	public vx: number = 0;
 	public vy: number = 0;
 	public isDestroyed: boolean = false;
-	protected abstract stopMoveAfterHit: boolean;
 	protected readonly movement = new MovementService(this);
 
 	public fire(): void {
@@ -23,7 +22,7 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	}
 
 	public checkCollision(component: IComponent): boolean {
-		return CollisionDetector.hitTestRectangle(this, component, this.stopMoveAfterHit);
+		return CollisionDetector.hitTestRectangle(this, component);
 	}
 
 	public preventCollision(component: IComponent): void {
@@ -36,7 +35,6 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	}
 
 	public break(): void {
-		// TODO maybe here should be explode animation
 		this.x *= -1;
 		this.y *= -1;
 		this.visible = false;
