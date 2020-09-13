@@ -23,10 +23,11 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	public break(): void {
 		// todo explode animation
 		this.x = -100;
+		this.visible = false;
 	}
 
-	public move(): void {
-		this.movement.move();
+	public move(delta: number): void {
+		this.movement.move(delta);
 	}
 
 	public stopMove(): void {

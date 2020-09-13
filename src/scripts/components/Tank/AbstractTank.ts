@@ -51,9 +51,9 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 		}
 	}
 
-	public move(): void {
+	public move(delta: number): void {
 		if (!this.isDestroyed) {
-			this.movement.move();
+			this.movement.move(delta);
 		}
 	}
 

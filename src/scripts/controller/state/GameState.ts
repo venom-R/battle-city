@@ -10,12 +10,8 @@ import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
-import { EStateName } from "../../enum/EStateName";
-import { IComponent, IMovingComponent } from "../../interface/IComponent";
 import { IState } from "../../interface/IState";
 import { TBrick } from "../../type/TBrick";
-import { CollisionDetector } from "../../util/CollisionDetector";
-import { isContain } from "../../util/helpers";
 import { AbstractState } from "./AbstractState";
 
 type TBullet = PlayerBullet | EnemyBullet;
@@ -33,11 +29,9 @@ export class GameState extends AbstractState implements IState {
 
 	public onEnter(): void {
 		this.generateComponents();
-		this.player.velocity = this.model.playerVelocity;
-		this.enemies.forEach((enemy: EnemyTank) => (enemy.velocity = this.model.enemyVelocity));
 		this.scene.addChild(this.map);
-		this.scene.visible = true;
 		this.registerEventListeners();
+		this.scene.visible = true;
 		// todo remove this
 		this.enemies.forEach((tank) => {
 			setInterval(() => {
@@ -70,11 +64,11 @@ export class GameState extends AbstractState implements IState {
 		});
 
 		this.tanks.forEach((tank: TTank) => {
-			tank.move();
+			tank.move(delta);
 		});
 
 		this.bullets.forEach((bullet: TBullet) => {
-			bullet.move();
+			bullet.move(delta);
 
 			this.tanks.forEach((tank: TTank) => {
 				if (
@@ -105,11 +99,10 @@ export class GameState extends AbstractState implements IState {
 		this.tanks.set(this.player.id, this.player);
 		this.base = this.map.base;
 		this.walls = this.map.walls;
+		this.player.velocity = this.model.playerVelocity;
+		this.enemies.forEach((enemy: EnemyTank) => (enemy.velocity = this.model.enemyVelocity));
 		this.view.alignComponentCenterX(this.map);
 		this.view.alignComponentCenterY(this.map);
-
-		console.log("walls", this.walls.size);
-		console.log("tanks", this.tanks.size);
 	}
 
 	private registerEventListeners(): void {

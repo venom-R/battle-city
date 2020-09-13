@@ -13,7 +13,7 @@ export interface IMovingComponent extends IComponent {
 	vy: number;
 	directionAngle?: number;
 	checkCollision(component: IComponent): boolean;
-	move(): void;
+	move(delta: number): void;
 	stopMove(): void;
 }
 

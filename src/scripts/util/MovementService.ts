@@ -9,9 +9,9 @@ export class MovementService {
 		this.context = context;
 	}
 
-	public move(): void {
-		this.context.x += this.context.vx;
-		this.context.y += this.context.vy;
+	public move(delta: number): void {
+		this.context.x += this.context.vx * delta;
+		this.context.y += this.context.vy * delta;
 	}
 
 	public stopMove() {
