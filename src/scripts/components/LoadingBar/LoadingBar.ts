@@ -1,4 +1,4 @@
-import { EComponentType } from "../../enum/EComponentType";
+import { EComponentName } from "../../enum/EComponentName";
 import { IComponent } from "../../interface/IComponent";
 import { Rectangle } from "./Rectangle";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
@@ -6,7 +6,7 @@ import { LoadingBarBG } from "./LoadingBarBG";
 import { LoadingBarProgress } from "./LoadingBarProgress";
 
 export class LoadingBar extends AbstractComponent implements IComponent {
-	public name: string = EComponentType.LOADING_BAR;
+	public name: string = EComponentName.LOADING_BAR;
 	private readonly _bg: Rectangle;
 	private readonly _bar: Rectangle;
 	private _progress: number = 0;

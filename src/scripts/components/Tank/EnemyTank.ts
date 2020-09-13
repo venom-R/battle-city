@@ -1,5 +1,6 @@
 import { Texture } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
+import { EComponentName } from "../../enum/EComponentName";
+import { EEventName } from "../../enum/EEventName";
 import { ETankDirection } from "../../enum/ETankDirection";
 import { ETextureName } from "../../enum/ETextureName";
 import { IMovingComponent } from "../../interface/IComponent";
@@ -9,7 +10,7 @@ import { AbstractTank } from "./AbstractTank";
 const tankTextureNames: Array<string> = [ETextureName.ENEMY_BLUE, ETextureName.ENEMY_RED, ETextureName.ENEMY_WHITE];
 
 export class EnemyTank extends AbstractTank implements IMovingComponent {
-	public name: string = EComponentType.ENEMY_TANK;
+	public name: string = EComponentName.ENEMY_TANK;
 	public static readonly requiredTextures: string | Array<string> = tankTextureNames;
 	protected stopMoveAfterHit: boolean = true;
 

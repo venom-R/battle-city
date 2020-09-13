@@ -63,7 +63,13 @@ export class GameController {
 		});
 		emitter.on(EEventName.ASSETS_LOADING_FAILURE, (error: Error) => {
 			console.error(error);
-			this.ticketStop();
+			this.tickerStop();
+		});
+		emitter.on(EEventName.GAME_OVER, () => {
+			setTimeout(() => {
+				this.transition(EStateName.END);
+				this.tickerStop();
+			}, 1000);
 		});
 	}
 
@@ -90,14 +96,15 @@ export class GameController {
 
 	private createTicker(): void {
 		this._ticker = Ticker.shared;
+		// this._ticker.maxFPS = 30;
 		this._ticker.add(this.gameLoop, this);
 	}
 
-	private ticketStart(): void {
+	private tickerStart(): void {
 		this._ticker.start();
 	}
 
-	private ticketStop(): void {
+	private tickerStop(): void {
 		this._ticker.stop();
 	}
 }

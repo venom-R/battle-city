@@ -7,6 +7,6 @@ export abstract class AbstractBrick extends AbstractComponent implements ICompon
 	abstract isIndestructible: boolean;
 	abstract name: string;
 
-	abstract getDamage(damage: number): void;
-	abstract destroy(): void;
+	abstract getDamage(): void;
+	abstract break(): void;
 }

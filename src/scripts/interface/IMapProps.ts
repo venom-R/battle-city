@@ -10,10 +10,10 @@ import { IComponent } from "./IComponent";
 export interface IMapProps {
 	player: PlayerTank;
 	base: Base;
-	waterComponents: Array<Water>;
-	enemies: Array<EnemyTank>;
-	schema: Array<IComponent>;
+	waterComponents: Map<string, Water>;
+	enemies: Map<string, EnemyTank>;
+	schema: Map<string, IComponent>;
 	emptyCells: Array<IPoint>;
-	walls: Array<TBrick>;
-	leaves: Array<Leaf>;
+	walls: Map<string, TBrick>;
+	leaves: Map<string, Leaf>;
 }

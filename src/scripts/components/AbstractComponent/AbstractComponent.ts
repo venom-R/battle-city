@@ -1,7 +1,9 @@
 import { Container, Sprite, Texture } from "pixi.js";
 import { IComponent } from "../../interface/IComponent";
+import { v4 as uuid } from "uuid";
 
 export abstract class AbstractComponent extends Container implements IComponent {
+	public readonly id: string = uuid();
 	public abstract name: string;
 	public image: Sprite;
 	private _texture: Texture;

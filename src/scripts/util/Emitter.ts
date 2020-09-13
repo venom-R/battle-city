@@ -4,7 +4,7 @@ type EventsType = {
 	[key: string]: ListenerType[];
 };
 
-export default class Emitter {
+export class Emitter {
 	private _events: EventsType = {};
 
 	on(type: string, listener: ListenerType): void {

@@ -1,5 +1,5 @@
 import { Text, TextStyle } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
+import { EComponentName } from "../../enum/EComponentName";
 import { IComponent } from "../../interface/IComponent";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
@@ -12,7 +12,7 @@ const style = new TextStyle({
 });
 
 export class Title extends AbstractComponent implements IComponent {
-	public name: string = EComponentType.TITLE;
+	public name: string = EComponentName.TITLE;
 	public _content: string;
 	private _text;
 

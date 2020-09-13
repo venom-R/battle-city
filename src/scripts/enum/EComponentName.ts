@@ -1,4 +1,4 @@
-export enum EComponentType {
+export enum EComponentName {
 	SIMPLE_BRICK = "SIMPLE_BRICK",
 	INDESTRUCTIBLE_BRICK = "INDESTRUCTIBLE_BRICK",
 	START_BUTTON = "START_BUTTON",
@@ -10,4 +10,6 @@ export enum EComponentType {
 	BASE = "BASE",
 	PLAYER_TANK = "PLAYER_TANK",
 	ENEMY_TANK = "ENEMY_TANK",
+	ENEMY_BULLET = "ENEMY_BULLET",
+	PLAYER_BULLET = "PLAYER_BULLET",
 }

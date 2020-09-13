@@ -1,4 +1,4 @@
-import { EComponentType } from "../../enum/EComponentType";
+import { EComponentName } from "../../enum/EComponentName";
 import { ETextureName } from "../../enum/ETextureName";
 import { IComponent } from "../../interface/IComponent";
 import { AbstractBrick } from "./AbstractBrick";
@@ -6,7 +6,7 @@ import { AbstractBrick } from "./AbstractBrick";
 export class SimpleBrick extends AbstractBrick implements IComponent {
 	public isIndestructible: boolean = false;
 	public lifePoints: number = 1;
-	public readonly name: string = EComponentType.SIMPLE_BRICK;
+	public readonly name: string = EComponentName.SIMPLE_BRICK;
 	public static readonly requiredTextures: string | Array<string> = [
 		ETextureName.SMALL_BRICK_1,
 		ETextureName.SMALL_BRICK_2,
@@ -14,16 +14,17 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 		ETextureName.SMALL_BRICK_4,
 	];
 
-	public destroy(): void {
+	public break(): void {
 		// TODO maybe here should be explode animation
-		this.x = -500;
+		this.x *= -1;
+		this.y *= -1;
 		this.visible = false;
 	}
 
-	public getDamage(damage: number): void {
-		this.lifePoints -= damage;
+	public getDamage(): void {
+		this.lifePoints -= 1;
 		if (this.lifePoints === 0) {
-			this.destroy();
+			this.break();
 		}
 	}
 

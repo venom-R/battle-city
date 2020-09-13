@@ -1,39 +1,33 @@
 import { Texture } from "pixi.js";
+import { EEventName } from "../../enum/EEventName";
 import { ETankDirection } from "../../enum/ETankDirection";
 import { IComponent, IMovingComponent } from "../../interface/IComponent";
 import { CollisionDetector } from "../../util/CollisionDetector";
+import { MovementService } from "../../util/MovementService";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractTank extends AbstractComponent implements IMovingComponent {
+	public lifePoints: number = 1;
 	public abstract name: string;
-	protected abstract stopMoveAfterHit: boolean;
 	public velocity: number = 1;
 	public vx: number = 0;
 	public vy: number = 0;
+	public isDestroyed: boolean = false;
+	protected abstract stopMoveAfterHit: boolean;
+	protected readonly movement = new MovementService(this);
+
+	public fire(): void {
+		if (!this.isDestroyed) {
+			this.emit(EEventName.TANK_FIRE, this);
+		}
+	}
 
 	public checkCollision(component: IComponent): boolean {
 		return CollisionDetector.hitTestRectangle(this, component, this.stopMoveAfterHit);
 	}
 
-	public blockCollision(component: IComponent): void {
-		if (this.checkCollision(component)) {
-			const collision: string = CollisionDetector.identifyHitSide(this, component);
-
-			switch (collision) {
-				case "left":
-					this.x = component.x + component.width + 1;
-					break;
-				case "top":
-					this.y = component.y + component.height + 1;
-					break;
-				case "right":
-					this.x = component.x - this.width - 1;
-					break;
-				case "bottom":
-					this.y = component.y - this.height - 1;
-					break;
-			}
-		}
+	public preventCollision(component: IComponent): void {
+		this.movement.preventCollision(component);
 	}
 
 	public setTexture(texture: Texture) {
@@ -41,38 +35,37 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 		this.configureImage();
 	}
 
+	public break(): void {
+		// TODO maybe here should be explode animation
+		this.x *= -1;
+		this.y *= -1;
+		this.visible = false;
+		this.isDestroyed = true;
+		this.emit(EEventName.TANK_DESTROYED, this);
+	}
+
+	public getDamage(): void {
+		this.lifePoints -= 1;
+		if (this.lifePoints === 0) {
+			this.break();
+		}
+	}
+
 	public move(): void {
-		this.x += this.vx;
-		this.y += this.vy;
+		if (!this.isDestroyed) {
+			this.movement.move();
+		}
 	}
 
 	public stopMove() {
-		this.vx = 0;
-		this.vy = 0;
+		this.movement.stopMove();
 	}
 
 	public setDirection(direction: number): void {
-		switch (direction) {
-			case ETankDirection.UP:
-				this.goUp(this.velocity);
-				break;
-			case ETankDirection.DOWN:
-				this.goDown(this.velocity);
-				break;
-			case ETankDirection.LEFT:
-				this.goLeft(this.velocity);
-				break;
-			case ETankDirection.RIGHT:
-				this.goRight(this.velocity);
-				break;
-		}
-		if (this.image.angle !== direction) {
+		this.movement.setDirection(direction);
+		if (this.directionAngle !== direction) {
 			this.image.angle = direction;
 		}
-	}
-
-	public fire(): void {
-		console.log("FIRE");
 	}
 
 	public get directionAngle(): number {
@@ -85,25 +78,5 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	protected configureImage(): void {
 		this.image.anchor.set(0.5, 0.5);
 		this.image.position.set(this.image.width / 2, this.image.height / 2);
-	}
-
-	protected goUp(velocity: number): void {
-		this.vx = 0;
-		this.vy = -velocity;
-	}
-
-	protected goDown(velocity: number): void {
-		this.vx = 0;
-		this.vy = velocity;
-	}
-
-	protected goLeft(velocity: number): void {
-		this.vx = -velocity;
-		this.vy = 0;
-	}
-
-	protected goRight(velocity: number): void {
-		this.vx = velocity;
-		this.vy = 0;
 	}
 }

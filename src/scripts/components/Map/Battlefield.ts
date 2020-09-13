@@ -1,27 +1,26 @@
 import { IPoint } from "pixi.js";
-import { EComponentType } from "../../enum/EComponentType";
+import { EComponentName } from "../../enum/EComponentName";
 import { IComponent } from "../../interface/IComponent";
 import { IMapProps } from "../../interface/IMapProps";
 import { TBrick } from "../../type/TBrick";
+import { mapToArray } from "../../util/helpers";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 import { Base } from "../Base/Base";
-import { IndestructibleBrick } from "../Brick/IndestructibleBrick";
-import { SimpleBrick } from "../Brick/SimpleBrick";
 import { Leaf } from "../Leaf/Leaf";
 import { EnemyTank } from "../Tank/EnemyTank";
 import { PlayerTank } from "../Tank/PlayerTank";
 import { Water } from "../Water/Water";
 
-export class Map extends AbstractComponent implements IComponent {
-	public name: string = EComponentType.MAP;
+export class Battlefield extends AbstractComponent implements IComponent {
+	public name: string = EComponentName.MAP;
 	public player: PlayerTank;
 	public base: Base;
-	public waterComponents: Array<Water>;
-	public enemies: Array<EnemyTank>;
-	public schema: Array<IComponent>;
+	public waterComponents: Map<string, Water>;
+	public enemies: Map<string, EnemyTank>;
+	public schema: Map<string, IComponent>;
 	public emptyCells: Array<IPoint>;
-	public walls: Array<TBrick>;
-	public leaves: Array<Leaf>;
+	public walls: Map<string, TBrick>;
+	public leaves: Map<string, Leaf>;
 
 	constructor(props: IMapProps) {
 		super();
@@ -34,10 +33,13 @@ export class Map extends AbstractComponent implements IComponent {
 		this.walls = props.walls;
 		this.leaves = props.leaves;
 		this.drawComponents();
-		console.log(this.enemies);
 	}
 
 	private drawComponents(): void {
-		this.addChild(...this.walls, ...this.waterComponents, ...this.leaves, this.base, ...this.enemies, this.player);
+		const walls: Array<TBrick> = mapToArray(this.walls);
+		const waterComponents: Array<Water> = mapToArray(this.waterComponents);
+		const leaves: Array<Leaf> = mapToArray(this.leaves);
+		const enemies: Array<EnemyTank> = mapToArray(this.enemies);
+		this.addChild(...walls, ...waterComponents, ...leaves, this.base, ...enemies, this.player);
 	}
 }

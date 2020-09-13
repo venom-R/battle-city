@@ -1,13 +1,17 @@
 import { Container, Texture } from "pixi.js";
 
 export interface IComponent extends Container, ICollisionProps {
+	id: string;
 	name: string;
 	setTexture(texture: Texture): void;
 	setTextureSet(textures: Array<Texture>): void;
 }
 
 export interface IMovingComponent extends IComponent {
-	directionAngle: number;
+	velocity: number;
+	vx: number;
+	vy: number;
+	directionAngle?: number;
 	checkCollision(component: IComponent): boolean;
 	move(): void;
 	stopMove(): void;
