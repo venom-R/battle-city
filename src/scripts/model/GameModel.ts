@@ -1,4 +1,5 @@
 import { Loader } from "pixi.js";
+import { ISound } from "../interface/ISound";
 import { Emitter } from "../util/Emitter";
 import { StateMachine } from "../util/StateMachine";
 
@@ -14,6 +15,7 @@ export class GameModel {
 	public bulletVelocity: number = 5;
 	public isWin: boolean = false;
 	private _totalKills: number = 0;
+	private _soundManager: ISound;
 
 	public addKill(): void {
 		this._totalKills += 1;
@@ -21,5 +23,13 @@ export class GameModel {
 
 	public get totalPoints(): number {
 		return this._totalKills * this.pointPerKill;
+	}
+
+	public injectSoundManager(soundManager: ISound): void {
+		this._soundManager = soundManager;
+	}
+
+	public get sound(): ISound {
+		return this._soundManager;
 	}
 }

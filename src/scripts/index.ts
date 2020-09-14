@@ -1,6 +1,7 @@
 import { GameController } from "./controller/GameController";
 import { GameModel } from "./model/GameModel";
 import { GameView } from "./view/GameView";
+import "pixi-sound";
 import "../styles/index.scss";
 
 function initGame(): void {

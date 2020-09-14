@@ -14,6 +14,8 @@ const APP_CONFIG = {
 	resolution: 1,
 };
 
+type TConstructor<T> = new (...params: Array<any>) => T;
+
 export class GameView {
 	public textures: ITextureDictionary = {};
 	private _canvasContainer: HTMLElement;
@@ -58,10 +60,7 @@ export class GameView {
 		component.y = (this.screenSize.height - component.height) / 2;
 	}
 
-	public createComponent<T extends IComponent>(
-		Component: new (...params: Array<any>) => T,
-		...params: Array<any>
-	): T {
+	public createComponent<T extends IComponent>(Component: TConstructor<T>, ...params: Array<any>): T {
 		// @ts-ignore
 		const { requiredTextures } = Component;
 		if (requiredTextures) {

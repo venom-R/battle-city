@@ -10,6 +10,7 @@ import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
+import { ESoundNames } from "../../enum/ESoundNames";
 import { IState } from "../../interface/IState";
 import { TBrick } from "../../type/TBrick";
 import { AbstractState } from "./AbstractState";
@@ -57,6 +58,9 @@ export class GameState extends AbstractState implements IState {
 		this.walls.forEach((brick: TBrick) => {
 			// Collision tank and wall
 			this.activeTanks.forEach((tank: TTank) => {
+				if (tank.name === EComponentName.PLAYER_TANK && tank.checkCollision(brick)) {
+					this.model.sound.hit();
+				}
 				tank.preventCollision(brick);
 			});
 
@@ -114,6 +118,7 @@ export class GameState extends AbstractState implements IState {
 		this.activeTanks.forEach((tank: TTank) => {
 			tank.on(EEventName.TANK_FIRE, () => {
 				this.drawBullet(tank);
+				this.model.sound.shot();
 			});
 			tank.on(EEventName.TANK_DESTROYED, () => {
 				this.activeTanks.delete(tank.id);
@@ -169,5 +174,6 @@ export class GameState extends AbstractState implements IState {
 		bullet.break();
 		this.bullets.delete(bullet.id);
 		this.map.addChild(explosion);
+		this.model.sound.explode();
 	}
 }

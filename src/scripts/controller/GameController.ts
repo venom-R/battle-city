@@ -1,11 +1,13 @@
 import { Dictionary } from "lodash";
 import { Loader, LoaderResource, Ticker } from "pixi.js";
 import { EEventName } from "../enum/EEventName";
+import { ESoundNames } from "../enum/ESoundNames";
 import { EStateName } from "../enum/EStateName";
 import { ETextureName } from "../enum/ETextureName";
 import { IState } from "../interface/IState";
 import { IStateContext } from "../interface/IStateContext";
 import { GameModel } from "../model/GameModel";
+import { GameSound } from "../util/GameSound";
 import { GameView } from "../view/GameView";
 import { EndState } from "./state/EndState";
 import { GameState } from "./state/GameState";
@@ -56,6 +58,7 @@ export class GameController {
 		const { emitter } = this.model;
 		emitter.on(EEventName.ASSETS_LOADED, (resources: Partial<Record<string, LoaderResource>>) => {
 			this.view.textures = { ...resources[ETextureName.ROOT].textures };
+			this.model.injectSoundManager(new GameSound(resources));
 			this.model.isAssetsLoaded = true;
 		});
 		emitter.on(EEventName.ASSETS_LOADING_PROGRESS, (progress: number) => {
@@ -77,7 +80,13 @@ export class GameController {
 		const { emitter } = this.model;
 		this.model.loader
 			.add(ETextureName.ROOT)
-			.load((_loader: Loader, resources: Partial<Record<string, LoaderResource>>) => {
+			.add(ESoundNames.BONUS)
+			.add(ESoundNames.SHOT)
+			.add(ESoundNames.EXPLODE)
+			.add(ESoundNames.HIT)
+			.add(ESoundNames.WIN)
+			.add(ESoundNames.LOSE)
+			.load((_loader: Loader, resources: Partial<Dictionary<LoaderResource>>) => {
 				emitter.emit(EEventName.ASSETS_LOADED, resources);
 			});
 		this.model.loader.onProgress.add((loader: Loader) => {
@@ -96,7 +105,6 @@ export class GameController {
 
 	private createTicker(): void {
 		this._ticker = Ticker.shared;
-		// this._ticker.maxFPS = 30;
 		this._ticker.add(this.gameLoop, this);
 	}
 

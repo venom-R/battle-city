@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.20",
+    "pixi-sound": "^3.0.5",
     "pixi.js": "^5.3.3",
     "uuid": "^8.3.0"
   },
