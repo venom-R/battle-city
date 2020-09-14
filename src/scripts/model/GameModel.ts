@@ -32,4 +32,12 @@ export class GameModel {
 	public get sound(): ISound {
 		return this._soundManager;
 	}
+
+	public enableSounds(): void {
+		this._soundManager.isMute = false;
+	}
+
+	public disableSounds(): void {
+		this._soundManager.isMute = true;
+	}
 }

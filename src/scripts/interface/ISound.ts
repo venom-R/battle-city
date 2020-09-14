@@ -1,4 +1,5 @@
 export interface ISound {
+	isMute: boolean;
 	hit(): void;
 	bonus(): void;
 	shot(): void;
