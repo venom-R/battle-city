@@ -1,6 +1,6 @@
 import { AbstractButton } from "../../components/Button/AbstractButton";
 import { StartButton } from "../../components/Button/StartButton";
-import { Title } from "../../components/Title/Title";
+import { Title } from "../../components/Text/Title";
 import { EStateName } from "../../enum/EStateName";
 import { IState } from "../../interface/IState";
 import { AbstractState } from "./AbstractState";

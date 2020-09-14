@@ -1,17 +1,19 @@
-import { Title } from "../../components/Title/Title";
+import { Paragraph } from "../../components/Text/Paragraph";
+import { Title } from "../../components/Text/Title";
 import { IState } from "../../interface/IState";
 import { AbstractState } from "./AbstractState";
 
 export class EndState extends AbstractState implements IState {
 	private _title: Title;
+	private _score: Title;
 
 	public onEnter(): void {
 		this.createTitle();
-		this.scene.addChild(this._title);
+		this.createScore();
+		this.scene.addChild(this._title, this._score);
 		this.view.alignComponentCenterY(this.scene);
 		this.scene.visible = true;
 		this.playSound();
-		console.log(`You scored ${this.model.totalPoints} points`);
 	}
 
 	public onLeave(): void {
@@ -22,6 +24,13 @@ export class EndState extends AbstractState implements IState {
 		const content: string = this.model.isWin ? "You win!" : "You lose!";
 		this._title = this.view.createComponent(Title, content);
 		this.view.alignComponentCenterX(this._title);
+	}
+
+	private createScore(): void {
+		const content: string = `You scored ${this.model.totalPoints} points`;
+		this._score = new Paragraph(content);
+		this._score.y = 100;
+		this.view.alignComponentCenterX(this._score);
 	}
 
 	private playSound(): void {

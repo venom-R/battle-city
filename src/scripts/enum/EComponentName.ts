@@ -5,6 +5,7 @@ export enum EComponentName {
 	LOADING_BAR = "LOADING_BAR",
 	MAP = "MAP",
 	TITLE = "TITLE",
+	PARAGRAPH = "PARAGRAPH",
 	WATER = "WATER",
 	LEAVES = "LEAVES",
 	BASE = "BASE",
