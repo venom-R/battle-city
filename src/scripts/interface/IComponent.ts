@@ -3,7 +3,7 @@ import { Container, Texture } from "pixi.js";
 export interface IComponent extends Container, ICollisionProps {
 	id: string;
 	name: string;
-	isDestroyed: boolean;
+	isDestroyed?: boolean;
 	setTexture(texture: Texture): void;
 	setTextureSet(textures: Array<Texture>): void;
 	getDamage?(): void;

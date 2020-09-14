@@ -2,6 +2,7 @@ import { Base } from "../../components/Base/Base";
 import { EnemyBullet } from "../../components/Bullet/EnemyBullet";
 import { PlayerBullet } from "../../components/Bullet/PlayerBullet";
 import { Explosion } from "../../components/Explosion/Explosion";
+import { Leaf } from "../../components/Leaf/Leaf";
 import { Battlefield } from "../../components/Map/Battlefield";
 import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
@@ -20,6 +21,8 @@ export class GameState extends AbstractState implements IState {
 	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
 	public player: PlayerTank;
 	public enemies: Map<string, EnemyTank>;
+	public waters: Map<string, Water>;
+	public leaves: Map<string, Leaf>;
 	public walls: Map<string, TBrick>;
 	public base: Base;
 	public map: Battlefield;
@@ -65,6 +68,14 @@ export class GameState extends AbstractState implements IState {
 			});
 		});
 
+		this.waters.forEach((water: Water) => {
+			this.activeTanks.forEach((tank: TTank) => {
+				if (tank.checkCollision(water)) {
+					tank.break();
+				}
+			});
+		});
+
 		this.bullets.forEach((bullet: TBullet) => {
 			bullet.move(delta);
 
@@ -88,6 +99,8 @@ export class GameState extends AbstractState implements IState {
 		this.enemies = this.map.enemies;
 		this.activeTanks = new Map(this.enemies);
 		this.activeTanks.set(this.player.id, this.player);
+		this.waters = this.map.waterComponents;
+		this.leaves = this.map.leaves;
 		this.base = this.map.base;
 		this.walls = this.map.walls;
 		this.player.velocity = this.model.playerVelocity;
@@ -157,17 +170,4 @@ export class GameState extends AbstractState implements IState {
 		this.bullets.delete(bullet.id);
 		this.map.addChild(explosion);
 	}
-
-	//
-	// private createFrames(): void {
-	// 	let width = 1088;
-	// 	const n = 16;
-	// 	const itemWidth = width / n;
-	// 	let x = 0;
-	// 	while (width >= x) {
-	// 		console.log(`x: ${x}`);
-	// 		x += itemWidth;
-	// 	}
-	// 	console.log("width", itemWidth);
-	// }
 }

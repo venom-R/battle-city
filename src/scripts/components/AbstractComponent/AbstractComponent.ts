@@ -5,7 +5,6 @@ import { v4 as uuid } from "uuid";
 export abstract class AbstractComponent extends Container implements IComponent {
 	public readonly id: string = uuid();
 	public abstract name: string;
-	public abstract isDestroyed: boolean;
 	public sprite: Sprite;
 	protected texture: Texture;
 	protected textureSet: Array<Texture> = [];
