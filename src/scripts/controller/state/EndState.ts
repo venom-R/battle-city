@@ -18,8 +18,6 @@ export class EndState extends AbstractState implements IState {
 		this.scene.visible = false;
 	}
 
-	public updateFrame(delta: number): void {}
-
 	private createTitle(): void {
 		const content: string = this.model.isWin ? "You win!" : "You lose!";
 		this._title = this.view.createComponent(Title, content);

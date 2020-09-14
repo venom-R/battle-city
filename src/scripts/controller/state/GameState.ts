@@ -10,7 +10,6 @@ import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
-import { ESoundNames } from "../../enum/ESoundNames";
 import { IState } from "../../interface/IState";
 import { TBrick } from "../../type/TBrick";
 import { AbstractState } from "./AbstractState";

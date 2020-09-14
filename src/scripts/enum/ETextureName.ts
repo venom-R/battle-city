@@ -1,7 +1,5 @@
 export enum ETextureName {
-	ROOT = "assets/spritesheet.json",
-	LOADER_BAR = "loader-bar.png",
-	LOADER_BG = "loader-bg.png",
+	ROOT = "assets/spritesheets/spritesheet.json",
 	START_BUTTON = "button.png",
 	INDESTRUCTIBLE_BRICK = "wall.png",
 	SMALL_BRICK_1 = "small_wall_1.png",
