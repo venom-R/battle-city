@@ -1,5 +1,6 @@
 import { Dictionary } from "lodash";
 import { Loader, LoaderResource, Ticker } from "pixi.js";
+import { EControls } from "../enum/EControls";
 import { EEventName } from "../enum/EEventName";
 import { ESoundNames } from "../enum/ESoundNames";
 import { EStateName } from "../enum/EStateName";
@@ -8,6 +9,7 @@ import { IState } from "../interface/IState";
 import { IStateContext } from "../interface/IStateContext";
 import { GameModel } from "../model/GameModel";
 import { GameSound } from "../util/GameSound";
+import { KeyboardInteraction } from "../util/KeyboardInteraction";
 import { GameView } from "../view/GameView";
 import { EndState } from "./state/EndState";
 import { GameState } from "./state/GameState";
@@ -74,6 +76,12 @@ export class GameController {
 				this.tickerStop();
 			}, 1000);
 		});
+		new KeyboardInteraction({
+			key: EControls.MUTE,
+			onPress: () => {
+				this.toggleSounds();
+			},
+		});
 	}
 
 	private loadAssets(): void {
@@ -114,5 +122,13 @@ export class GameController {
 
 	private tickerStop(): void {
 		this._ticker.stop();
+	}
+
+	private toggleSounds(): void {
+		if (this.model.isMute) {
+			this.model.enableSounds();
+		} else {
+			this.model.disableSounds();
+		}
 	}
 }

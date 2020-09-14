@@ -4,4 +4,5 @@ export enum EControls {
 	LEFT = "KeyA",
 	RIGHT = "KeyD",
 	FIRE = "Space",
+	MUTE = "KeyM",
 }
