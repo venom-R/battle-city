@@ -16,7 +16,7 @@ export class EnemyTank extends AbstractTank implements IMovingComponent {
 	public setTextureSet(texture: Array<Texture>): void {
 		const randomTexture: Texture = randomItemInArray(texture);
 		super.setTexture(randomTexture);
-		this.configureImage();
+		this.configureSprite();
 	}
 
 	public setRandomDirection(): void {

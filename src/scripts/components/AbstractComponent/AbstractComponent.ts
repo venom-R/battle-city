@@ -5,20 +5,21 @@ import { v4 as uuid } from "uuid";
 export abstract class AbstractComponent extends Container implements IComponent {
 	public readonly id: string = uuid();
 	public abstract name: string;
-	public image: Sprite;
-	private _texture: Texture;
-	private _textureSet: Array<Texture> = [];
+	public abstract isDestroyed: boolean;
+	public sprite: Sprite;
+	protected texture: Texture;
+	protected textureSet: Array<Texture> = [];
 	protected imageSet: Array<Sprite> = [];
 
 	public setTexture(texture: Texture): void {
-		this._texture = texture;
-		this.image = new Sprite(texture);
-		this.addChild(this.image);
+		this.texture = texture;
+		this.sprite = new Sprite(texture);
+		this.addChild(this.sprite);
 	}
 
 	public setTextureSet(textures: Array<PIXI.Texture>): void {
-		this._textureSet = [...textures];
-		this._textureSet.forEach((texture: Texture) => {
+		this.textureSet = [...textures];
+		this.textureSet.forEach((texture: Texture) => {
 			this.imageSet.push(new Sprite(texture));
 		});
 	}

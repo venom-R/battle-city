@@ -1,5 +1,4 @@
 import { IPoint, Point } from "pixi.js";
-import { EComponentName } from "../../enum/EComponentName";
 import { ETankDirection } from "../../enum/ETankDirection";
 import { IComponent, IMovingComponent } from "../../interface/IComponent";
 import { CollisionDetector } from "../../util/CollisionDetector";

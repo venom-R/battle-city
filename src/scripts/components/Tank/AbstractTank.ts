@@ -31,7 +31,7 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 
 	public setTexture(texture: Texture) {
 		super.setTexture(texture);
-		this.configureImage();
+		this.configureSprite();
 	}
 
 	public break(): void {
@@ -62,19 +62,19 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	public setDirection(direction: number): void {
 		this.movement.setDirection(direction);
 		if (this.directionAngle !== direction) {
-			this.image.angle = direction;
+			this.sprite.angle = direction;
 		}
 	}
 
 	public get directionAngle(): number {
-		if (this.image) {
-			return this.image.angle;
+		if (this.sprite) {
+			return this.sprite.angle;
 		}
 		return ETankDirection.UP;
 	}
 
-	protected configureImage(): void {
-		this.image.anchor.set(0.5, 0.5);
-		this.image.position.set(this.image.width / 2, this.image.height / 2);
+	protected configureSprite(): void {
+		this.sprite.anchor.set(0.5, 0.5);
+		this.sprite.position.set(this.sprite.width / 2, this.sprite.height / 2);
 	}
 }

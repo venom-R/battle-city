@@ -17,4 +17,5 @@ export enum ETextureName {
 	WATER = "water.png",
 	ENEMY_BULLET = "enemy_bullet.png",
 	PLAYER_BULLET = "bullet.png",
+	EXPLOSION = "explode",
 }

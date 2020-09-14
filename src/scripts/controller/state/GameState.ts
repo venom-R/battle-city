@@ -1,10 +1,12 @@
 import { Base } from "../../components/Base/Base";
 import { EnemyBullet } from "../../components/Bullet/EnemyBullet";
 import { PlayerBullet } from "../../components/Bullet/PlayerBullet";
+import { Explosion } from "../../components/Explosion/Explosion";
 import { Battlefield } from "../../components/Map/Battlefield";
 import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
+import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
 import { IState } from "../../interface/IState";
@@ -141,11 +143,31 @@ export class GameState extends AbstractState implements IState {
 
 	private bulletHit(bullet: TBullet, component: TBrick | TTank | Base): boolean {
 		if (bullet.checkCollision(component)) {
-			bullet.break();
-			this.bullets.delete(bullet.id);
+			this.explode(bullet);
 			component.getDamage();
 			return true;
 		}
 		return false;
 	}
+
+	private explode(bullet: TBullet): void {
+		const explosion = this.view.createComponent(Explosion);
+		explosion.position.set(bullet.x, bullet.y);
+		bullet.break();
+		this.bullets.delete(bullet.id);
+		this.map.addChild(explosion);
+	}
+
+	//
+	// private createFrames(): void {
+	// 	let width = 1088;
+	// 	const n = 16;
+	// 	const itemWidth = width / n;
+	// 	let x = 0;
+	// 	while (width >= x) {
+	// 		console.log(`x: ${x}`);
+	// 		x += itemWidth;
+	// 	}
+	// 	console.log("width", itemWidth);
+	// }
 }
