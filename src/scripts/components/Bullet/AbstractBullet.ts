@@ -1,13 +1,10 @@
 import { IPoint, Point } from "pixi.js";
 import { ETankDirection } from "../../enum/ETankDirection";
 import { IComponent, IMovingComponent } from "../../interface/IComponent";
+import { ITank } from "../../interface/ITank";
 import { CollisionDetector } from "../../util/CollisionDetector";
 import { MovementService } from "../../util/MovementService";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
-import { EnemyTank } from "../Tank/EnemyTank";
-import { PlayerTank } from "../Tank/PlayerTank";
-
-type TTank = PlayerTank | EnemyTank;
 
 export abstract class AbstractBullet extends AbstractComponent implements IMovingComponent {
 	public isDestroyed: boolean = false;
@@ -24,7 +21,6 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	}
 
 	public break(): void {
-		// todo explode animation
 		this.x = -100;
 		this.visible = false;
 		this.isDestroyed = true;
@@ -38,7 +34,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 		this.movement.stopMove();
 	}
 
-	public setInitialPoint(tank: TTank): void {
+	public setInitialPoint(tank: ITank): void {
 		const initialPoint: IPoint = this.getInitialPoint(tank);
 		this.position.set(initialPoint.x, initialPoint.y);
 	}
@@ -47,7 +43,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 		this.movement.setDirection(direction);
 	}
 
-	protected getInitialPoint(tank: TTank): IPoint {
+	protected getInitialPoint(tank: ITank): IPoint {
 		switch (tank.directionAngle) {
 			case ETankDirection.UP:
 				return new Point(tank.x + tank.halfWidth - this.halfWidth, tank.y - this.height);

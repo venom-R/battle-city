@@ -7,6 +7,7 @@ export interface IComponent extends Container, ICollisionProps {
 	setTexture(texture: Texture): void;
 	setTextureSet(textures: Array<Texture>): void;
 	getDamage?(): void;
+	break?(): void;
 }
 
 export interface IMovingComponent extends IComponent {
@@ -15,6 +16,7 @@ export interface IMovingComponent extends IComponent {
 	vy: number;
 	directionAngle?: number;
 	checkCollision(component: IComponent): boolean;
+	preventCollision?(component: IComponent): void;
 	move(delta: number): void;
 	stopMove(): void;
 	setDirection(direction: number): void;

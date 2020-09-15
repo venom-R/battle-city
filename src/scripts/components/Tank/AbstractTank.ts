@@ -1,12 +1,14 @@
 import { Texture } from "pixi.js";
 import { EEventName } from "../../enum/EEventName";
 import { ETankDirection } from "../../enum/ETankDirection";
-import { IComponent, IMovingComponent } from "../../interface/IComponent";
+import { IComponent } from "../../interface/IComponent";
+import { ITank } from "../../interface/ITank";
+import { ITankController } from "../../interface/ITankController";
 import { CollisionDetector } from "../../util/CollisionDetector";
 import { MovementService } from "../../util/MovementService";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
-export abstract class AbstractTank extends AbstractComponent implements IMovingComponent {
+export abstract class AbstractTank extends AbstractComponent implements ITank {
 	public lifePoints: number = 1;
 	public abstract name: string;
 	public velocity: number = 1;
@@ -14,6 +16,17 @@ export abstract class AbstractTank extends AbstractComponent implements IMovingC
 	public vy: number = 0;
 	public isDestroyed: boolean = false;
 	protected readonly movement = new MovementService(this);
+	protected controller: ITankController;
+
+	public addControl(controller: ITankController): void {
+		this.controller = controller;
+		this.controller.injectTank(this);
+		this.controller.addControl();
+	}
+
+	public removeControl(): void {
+		this.controller.removeControl();
+	}
 
 	public fire(): void {
 		if (!this.isDestroyed) {

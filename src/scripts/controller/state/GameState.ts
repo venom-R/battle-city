@@ -7,15 +7,16 @@ import { Battlefield } from "../../components/Map/Battlefield";
 import { MapGenerator } from "../../components/Map/MapGenerator";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
+import { TankKeyboardController } from "../../components/Tank/controllers/TankKeyboardController";
 import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
 import { IState } from "../../interface/IState";
+import { ITank } from "../../interface/ITank";
 import { TBrick } from "../../type/TBrick";
 import { AbstractState } from "./AbstractState";
 
 type TBullet = PlayerBullet | EnemyBullet;
-type TTank = PlayerTank | EnemyTank;
 
 export class GameState extends AbstractState implements IState {
 	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
@@ -27,7 +28,7 @@ export class GameState extends AbstractState implements IState {
 	public base: Base;
 	public map: Battlefield;
 	public bullets: Map<string, TBullet> = new Map();
-	public activeTanks: Map<string, TTank>;
+	public activeTanks: Map<string, ITank>;
 
 	public onEnter(): void {
 		this.createComponents();
@@ -35,11 +36,11 @@ export class GameState extends AbstractState implements IState {
 		this.registerEventListeners();
 		this.scene.visible = true;
 		// todo remove this
-		this.enemies.forEach((tank) => {
-			setInterval(() => {
-				tank.fire();
-			}, 3000);
-		});
+		// this.enemies.forEach((tank) => {
+		// 	setInterval(() => {
+		// 		tank.fire();
+		// 	}, 3000);
+		// });
 	}
 
 	public onLeave(): void {
@@ -49,14 +50,14 @@ export class GameState extends AbstractState implements IState {
 
 	public updateFrame(delta: number): void {
 		// Moving tanks
-		this.activeTanks.forEach((tank: TTank) => {
-			tank.move(delta);
+		this.activeTanks.forEach((tank: ITank) => {
+			// tank.move(delta);
 		});
 
 		// Detecting collision with walls, including hitting by bullets
 		this.walls.forEach((brick: TBrick) => {
 			// Collision tank and wall
-			this.activeTanks.forEach((tank: TTank) => {
+			this.activeTanks.forEach((tank: ITank) => {
 				if (tank.name === EComponentName.PLAYER_TANK && tank.checkCollision(brick)) {
 					this.model.sound.hit();
 				}
@@ -72,7 +73,7 @@ export class GameState extends AbstractState implements IState {
 		});
 
 		this.waters.forEach((water: Water) => {
-			this.activeTanks.forEach((tank: TTank) => {
+			this.activeTanks.forEach((tank: ITank) => {
 				if (tank.checkCollision(water)) {
 					tank.break();
 				}
@@ -83,7 +84,7 @@ export class GameState extends AbstractState implements IState {
 			bullet.move(delta);
 
 			// Hitting tanks
-			this.activeTanks.forEach((tank: TTank) => {
+			this.activeTanks.forEach((tank: ITank) => {
 				if (!bullet.isFriendlyTarget(tank)) {
 					this.bulletHit(bullet, tank);
 				}
@@ -107,14 +108,18 @@ export class GameState extends AbstractState implements IState {
 		this.base = this.map.base;
 		this.walls = this.map.walls;
 		this.player.velocity = this.model.playerVelocity;
-		this.enemies.forEach((enemy: EnemyTank) => (enemy.velocity = this.model.enemyVelocity));
+		this.enemies.forEach((enemy: EnemyTank) => {
+			enemy.velocity = this.model.enemyVelocity;
+			// const tankController = new TankAIController(this.base);
+			// enemy.addControl(tankController);
+		});
 		this.view.alignComponentCenterX(this.map);
 		this.view.alignComponentCenterY(this.map);
 	}
 
 	private registerEventListeners(): void {
-		this.player.addControl();
-		this.activeTanks.forEach((tank: TTank) => {
+		this.player.addControl(new TankKeyboardController());
+		this.activeTanks.forEach((tank: ITank) => {
 			tank.on(EEventName.TANK_FIRE, () => {
 				this.drawBullet(tank);
 				this.model.sound.shot();
@@ -139,14 +144,14 @@ export class GameState extends AbstractState implements IState {
 
 	private unregisterEventListeners(): void {
 		this.player.removeControl();
-		this.activeTanks.forEach((tank: TTank) => {
+		this.activeTanks.forEach((tank: ITank) => {
 			tank.off(EEventName.TANK_FIRE);
 			tank.off(EEventName.TANK_DESTROYED);
 		});
 		this.base.off(EEventName.BASE_DESTROYED);
 	}
 
-	private drawBullet(tank: TTank): void {
+	private drawBullet(tank: ITank): void {
 		const bullet: TBullet =
 			tank.name === EComponentName.PLAYER_TANK
 				? this.view.createComponent(PlayerBullet)
@@ -158,7 +163,7 @@ export class GameState extends AbstractState implements IState {
 		this.bullets.set(bullet.id, bullet);
 	}
 
-	private bulletHit(bullet: TBullet, component: TBrick | TTank | Base): boolean {
+	private bulletHit(bullet: TBullet, component: TBrick | ITank | Base): boolean {
 		if (bullet.checkCollision(component)) {
 			this.explode(bullet);
 			component.getDamage();

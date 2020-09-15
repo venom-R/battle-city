@@ -1,8 +1,8 @@
-import { EControls } from "../../enum/EControls";
-import { ETankDirection } from "../../enum/ETankDirection";
-import { ITankController } from "../../interface/ITankController";
-import { KeyboardInteraction } from "../../util/KeyboardInteraction";
-import { AbstractTank } from "./AbstractTank";
+import { EControls } from "../../../enum/EControls";
+import { ETankDirection } from "../../../enum/ETankDirection";
+import { ITank } from "../../../interface/ITank";
+import { ITankController } from "../../../interface/ITankController";
+import { KeyboardInteraction } from "../../../util/KeyboardInteraction";
 
 type TControls = {
 	up?: KeyboardInteraction;
@@ -13,10 +13,10 @@ type TControls = {
 };
 
 export class TankKeyboardController implements ITankController {
-	private _tank: AbstractTank;
+	private _tank: ITank;
 	private _controls: TControls = {};
 
-	constructor(tank: AbstractTank) {
+	public injectTank(tank: ITank): void {
 		this._tank = tank;
 	}
 
