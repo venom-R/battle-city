@@ -22,22 +22,22 @@ export class CollisionDetector {
 
 	public static identifyHitSide(moving: IMovingComponent, fixed: IComponent): string {
 		//Left
-		if (moving.x < fixed.x + fixed.width && moving.directionAngle === ETankDirection.LEFT) {
+		if (moving.x < fixed.x + fixed.width && moving.getDirectionAngle() === ETankDirection.LEFT) {
 			return "left";
 		}
 
 		//Top
-		if (moving.y < fixed.y + fixed.height && moving.directionAngle === ETankDirection.UP) {
+		if (moving.y < fixed.y + fixed.height && moving.getDirectionAngle() === ETankDirection.UP) {
 			return "top";
 		}
 
 		//Right
-		if (moving.x + moving.width > fixed.x && moving.directionAngle === ETankDirection.RIGHT) {
+		if (moving.x + moving.width > fixed.x && moving.getDirectionAngle() === ETankDirection.RIGHT) {
 			return "right";
 		}
 
 		//Bottom
-		if (moving.y + moving.height > fixed.y && moving.directionAngle === ETankDirection.DOWN) {
+		if (moving.y + moving.height > fixed.y && moving.getDirectionAngle() === ETankDirection.DOWN) {
 			return "bottom";
 		}
 	}

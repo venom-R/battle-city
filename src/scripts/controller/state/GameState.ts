@@ -5,6 +5,8 @@ import { Explosion } from "../../components/Explosion/Explosion";
 import { Leaf } from "../../components/Leaf/Leaf";
 import { Battlefield } from "../../components/Map/Battlefield";
 import { MapGenerator } from "../../components/Map/MapGenerator";
+import { TankAIControlledProxyCreator } from "../../components/Tank/controllers/TankAIControlledProxyCreator";
+import { TankAIController } from "../../components/Tank/controllers/TankAIController";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
 import { PlayerTank } from "../../components/Tank/PlayerTank";
 import { TankKeyboardController } from "../../components/Tank/controllers/TankKeyboardController";
@@ -32,15 +34,9 @@ export class GameState extends AbstractState implements IState {
 
 	public onEnter(): void {
 		this.createComponents();
-		this.scene.addChild(this.map);
 		this.registerEventListeners();
+		this.scene.addChild(this.map);
 		this.scene.visible = true;
-		// todo remove this
-		// this.enemies.forEach((tank) => {
-		// 	setInterval(() => {
-		// 		tank.fire();
-		// 	}, 3000);
-		// });
 	}
 
 	public onLeave(): void {
@@ -51,7 +47,7 @@ export class GameState extends AbstractState implements IState {
 	public updateFrame(delta: number): void {
 		// Moving tanks
 		this.activeTanks.forEach((tank: ITank) => {
-			// tank.move(delta);
+			tank.move(delta);
 		});
 
 		// Detecting collision with walls, including hitting by bullets
@@ -101,24 +97,30 @@ export class GameState extends AbstractState implements IState {
 		this.map = this.mapGenerator.generateMap(Battlefield);
 		this.player = this.map.player;
 		this.enemies = this.map.enemies;
-		this.activeTanks = new Map(this.enemies);
-		this.activeTanks.set(this.player.id, this.player);
 		this.waters = this.map.waterComponents;
 		this.leaves = this.map.leaves;
 		this.base = this.map.base;
 		this.walls = this.map.walls;
-		this.player.velocity = this.model.playerVelocity;
-		this.enemies.forEach((enemy: EnemyTank) => {
-			enemy.velocity = this.model.enemyVelocity;
-			// const tankController = new TankAIController(this.base);
-			// enemy.addControl(tankController);
-		});
+		this.configureTanks();
 		this.view.alignComponentCenterX(this.map);
 		this.view.alignComponentCenterY(this.map);
 	}
 
+	private configureTanks(): void {
+		this.player.velocity = this.model.playerVelocity;
+		this.activeTanks = new Map();
+		this.activeTanks.set(this.player.id, this.player);
+		this.enemies.forEach((enemy: EnemyTank) => {
+			const controlledEnemyCreator = new TankAIControlledProxyCreator(new TankAIController(enemy, this.base));
+			const controlledEnemy: ITank = controlledEnemyCreator.create(enemy);
+			controlledEnemy.velocity = this.model.enemyVelocity;
+			this.activeTanks.set(controlledEnemy.id, controlledEnemy);
+		});
+	}
+
 	private registerEventListeners(): void {
 		this.player.addControl(new TankKeyboardController());
+		// todo write handlers
 		this.activeTanks.forEach((tank: ITank) => {
 			tank.on(EEventName.TANK_FIRE, () => {
 				this.drawBullet(tank);
@@ -158,7 +160,7 @@ export class GameState extends AbstractState implements IState {
 				: this.view.createComponent(EnemyBullet);
 		bullet.velocity = this.model.bulletVelocity;
 		bullet.setInitialPoint(tank);
-		bullet.setDirection(tank.directionAngle);
+		bullet.setDirection(tank.getDirectionAngle());
 		this.map.addChild(bullet);
 		this.bullets.set(bullet.id, bullet);
 	}

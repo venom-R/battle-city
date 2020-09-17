@@ -11,7 +11,6 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	public vx: number = 0;
 	public vy: number = 0;
 	public velocity = 1;
-	public abstract directionAngle: number;
 	protected readonly movement = new MovementService(this);
 
 	public abstract isFriendlyTarget(target: IComponent): boolean;
@@ -44,7 +43,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	}
 
 	protected getInitialPoint(tank: ITank): IPoint {
-		switch (tank.directionAngle) {
+		switch (tank.getDirectionAngle()) {
 			case ETankDirection.UP:
 				return new Point(tank.x + tank.halfWidth - this.halfWidth, tank.y - this.height);
 			case ETankDirection.DOWN:

@@ -39,10 +39,13 @@ export abstract class AbstractTank extends AbstractComponent implements ITank {
 	}
 
 	public preventCollision(component: IComponent): void {
-		this.movement.preventCollision(component);
+		if (this.checkCollision(component)) {
+			const collision: string = CollisionDetector.identifyHitSide(this, component);
+			CollisionDetector.preventCollision(this, component, collision);
+		}
 	}
 
-	public setTexture(texture: Texture) {
+	public setTexture(texture: Texture): void {
 		super.setTexture(texture);
 		this.configureSprite();
 	}
@@ -68,18 +71,18 @@ export abstract class AbstractTank extends AbstractComponent implements ITank {
 		}
 	}
 
-	public stopMove() {
+	public stopMove(): void {
 		this.movement.stopMove();
 	}
 
 	public setDirection(direction: number): void {
 		this.movement.setDirection(direction);
-		if (this.directionAngle !== direction) {
+		if (this.getDirectionAngle() !== direction) {
 			this.sprite.angle = direction;
 		}
 	}
 
-	public get directionAngle(): number {
+	public getDirectionAngle(): number {
 		if (this.sprite) {
 			return this.sprite.angle;
 		}

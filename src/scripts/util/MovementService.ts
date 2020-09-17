@@ -1,6 +1,5 @@
 import { ETankDirection } from "../enum/ETankDirection";
-import { IComponent, IMovingComponent } from "../interface/IComponent";
-import { CollisionDetector } from "./CollisionDetector";
+import { IMovingComponent } from "../interface/IComponent";
 
 export class MovementService {
 	protected context: IMovingComponent;
@@ -22,44 +21,37 @@ export class MovementService {
 	public setDirection(direction: number): void {
 		switch (direction) {
 			case ETankDirection.UP:
-				this.goUp(this.context.velocity);
+				this.goUp();
 				break;
 			case ETankDirection.DOWN:
-				this.goDown(this.context.velocity);
+				this.goDown();
 				break;
 			case ETankDirection.LEFT:
-				this.goLeft(this.context.velocity);
+				this.goLeft();
 				break;
 			case ETankDirection.RIGHT:
-				this.goRight(this.context.velocity);
+				this.goRight();
 				break;
 		}
 	}
 
-	public preventCollision(component: IComponent): void {
-		if (this.context.checkCollision(component)) {
-			const collision: string = CollisionDetector.identifyHitSide(this.context, component);
-			CollisionDetector.preventCollision(this.context, component, collision);
-		}
-	}
-
-	public goUp(velocity: number): void {
+	public goUp(): void {
 		this.context.vx = 0;
-		this.context.vy = -velocity;
+		this.context.vy = -this.context.velocity;
 	}
 
-	public goDown(velocity: number): void {
+	public goDown(): void {
 		this.context.vx = 0;
-		this.context.vy = velocity;
+		this.context.vy = this.context.velocity;
 	}
 
-	public goLeft(velocity: number): void {
-		this.context.vx = -velocity;
+	public goLeft(): void {
+		this.context.vx = -this.context.velocity;
 		this.context.vy = 0;
 	}
 
-	public goRight(velocity: number): void {
-		this.context.vx = velocity;
+	public goRight(): void {
+		this.context.vx = this.context.velocity;
 		this.context.vy = 0;
 	}
 }

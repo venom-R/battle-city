@@ -61,7 +61,6 @@ export class MapGenerator {
 					component.position.set(point.x, point.y);
 					if (component.name === EComponentName.ENEMY_TANK) {
 						(component as EnemyTank).setDirection(ETankDirection.DOWN);
-						// (component as EnemyTank).setRandomDirection();
 					}
 					this._schema.set(component.id, component);
 					this.groupComponents(component);

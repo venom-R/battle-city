@@ -17,15 +17,4 @@ export class EnemyTank extends AbstractTank implements ITank {
 		super.setTexture(randomTexture);
 		this.configureSprite();
 	}
-
-	public setRandomDirection(): void {
-		const directionKeys: Array<number> = [
-			ETankDirection.UP,
-			ETankDirection.DOWN,
-			ETankDirection.RIGHT,
-			ETankDirection.LEFT,
-		];
-		const randomDirection: number = randomItemInArray(directionKeys);
-		this.setDirection(randomDirection);
-	}
 }
