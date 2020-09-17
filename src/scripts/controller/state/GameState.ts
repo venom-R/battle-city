@@ -120,28 +120,35 @@ export class GameState extends AbstractState implements IState {
 
 	private registerEventListeners(): void {
 		this.player.addControl(new TankKeyboardController());
-		// todo write handlers
 		this.activeTanks.forEach((tank: ITank) => {
 			tank.on(EEventName.TANK_FIRE, () => {
-				this.drawBullet(tank);
-				this.model.sound.shot();
+				this.tankFireHandle(tank);
 			});
 			tank.on(EEventName.TANK_DESTROYED, () => {
-				this.activeTanks.delete(tank.id);
-				if (tank.name === EComponentName.PLAYER_TANK) {
-					this.model.emitter.emit(EEventName.GAME_OVER);
-				} else {
-					this.model.addKill();
-				}
-				if (this.activeTanks.size === 1 && !this.player.isDestroyed) {
-					this.model.isWin = true;
-					this.model.emitter.emit(EEventName.GAME_OVER);
-				}
+				this.tankDestroyedHandle(tank);
 			});
 		});
 		this.base.on(EEventName.BASE_DESTROYED, () => {
 			this.model.emitter.emit(EEventName.GAME_OVER);
 		});
+	}
+
+	private tankFireHandle(tank: ITank): void {
+		this.drawBullet(tank);
+		this.model.sound.shot();
+	}
+
+	private tankDestroyedHandle(tank: ITank): void {
+		this.activeTanks.delete(tank.id);
+		if (tank.name === EComponentName.PLAYER_TANK) {
+			this.model.emitter.emit(EEventName.GAME_OVER);
+		} else {
+			this.model.addKill();
+		}
+		if (this.activeTanks.size === 1 && !this.player.isDestroyed) {
+			this.model.isWin = true;
+			this.model.emitter.emit(EEventName.GAME_OVER);
+		}
 	}
 
 	private unregisterEventListeners(): void {
