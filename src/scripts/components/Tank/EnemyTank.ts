@@ -1,6 +1,5 @@
 import { Texture } from "pixi.js";
 import { EComponentName } from "../../enum/EComponentName";
-import { ETankDirection } from "../../enum/ETankDirection";
 import { ETextureName } from "../../enum/ETextureName";
 import { ITank } from "../../interface/ITank";
 import { randomItemInArray } from "../../util/helpers";
