@@ -3,7 +3,7 @@ import { LoaderResource } from "pixi.js";
 
 export class SoundManager {
 	private readonly _resources: Partial<Dictionary<LoaderResource>>;
-	public isMute: boolean = true;
+	public isMute: boolean = false;
 
 	constructor(resources: Partial<Dictionary<LoaderResource>>) {
 		this._resources = resources;

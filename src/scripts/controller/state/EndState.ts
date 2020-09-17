@@ -35,9 +35,9 @@ export class EndState extends AbstractState implements IState {
 
 	private playSound(): void {
 		if (this.model.isWin) {
-			this.model.sound.win();
+			this.model.soundManager.win();
 		} else {
-			this.model.sound.lose();
+			this.model.soundManager.lose();
 		}
 	}
 }

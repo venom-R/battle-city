@@ -55,7 +55,7 @@ export class GameState extends AbstractState implements IState {
 			// Collision tank and wall
 			this.activeTanks.forEach((tank: ITank) => {
 				if (tank.name === EComponentName.PLAYER_TANK && tank.checkCollision(brick)) {
-					this.model.sound.hit();
+					this.model.soundManager.hit();
 				}
 				tank.preventCollision(brick);
 			});
@@ -135,7 +135,7 @@ export class GameState extends AbstractState implements IState {
 
 	private tankFireHandle(tank: ITank): void {
 		this.drawBullet(tank);
-		this.model.sound.shot();
+		this.model.soundManager.shot();
 	}
 
 	private tankDestroyedHandle(tank: ITank): void {
@@ -187,6 +187,6 @@ export class GameState extends AbstractState implements IState {
 		bullet.break();
 		this.bullets.delete(bullet.id);
 		this.map.addChild(explosion);
-		this.model.sound.explode();
+		this.model.soundManager.explode();
 	}
 }

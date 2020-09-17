@@ -16,6 +16,7 @@ export class GameModel {
 	public isWin: boolean = false;
 	private _totalKills: number = 0;
 	private _soundManager: ISound;
+	private readonly _isMuteByDefault: boolean = false;
 
 	public addKill(): void {
 		this._totalKills += 1;
@@ -27,9 +28,10 @@ export class GameModel {
 
 	public injectSoundManager(soundManager: ISound): void {
 		this._soundManager = soundManager;
+		this._soundManager.isMute = this._isMuteByDefault;
 	}
 
-	public get sound(): ISound {
+	public get soundManager(): ISound {
 		return this._soundManager;
 	}
 
