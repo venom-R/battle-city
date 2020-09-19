@@ -11,6 +11,7 @@ export interface IComponent extends Container, ICollisionProps {
 }
 
 export interface IMovingComponent extends IComponent {
+	speed: number;
 	velocity: number;
 	vx: number;
 	vy: number;

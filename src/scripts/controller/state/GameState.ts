@@ -1,4 +1,9 @@
+import { IPoint } from "pixi.js";
 import { Base } from "../../components/Base/Base";
+import { BonusDegreaseSpeed } from "../../components/Bonus/BonusDegreaseSpeed";
+import { BonusImmortal } from "../../components/Bonus/BonusImmortal";
+import { BonusIncreaseSpeed } from "../../components/Bonus/BonusIncreaseSpeed";
+import { BonusLife } from "../../components/Bonus/BonusLife";
 import { EnemyBullet } from "../../components/Bullet/EnemyBullet";
 import { PlayerBullet } from "../../components/Bullet/PlayerBullet";
 import { Explosion } from "../../components/Explosion/Explosion";
@@ -13,12 +18,16 @@ import { TankKeyboardController } from "../../components/Tank/controllers/TankKe
 import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
+import { IBonus } from "../../interface/IBonus";
 import { IState } from "../../interface/IState";
 import { ITank } from "../../interface/ITank";
 import { TBrick } from "../../type/TBrick";
+import { randomItemInArray } from "../../util/helpers";
 import { AbstractState } from "./AbstractState";
 
 type TBullet = PlayerBullet | EnemyBullet;
+
+const BONUSES: Array<new () => IBonus> = [BonusLife, BonusImmortal, BonusIncreaseSpeed, BonusDegreaseSpeed];
 
 export class GameState extends AbstractState implements IState {
 	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
@@ -28,14 +37,18 @@ export class GameState extends AbstractState implements IState {
 	public leaves: Map<string, Leaf>;
 	public walls: Map<string, TBrick>;
 	public base: Base;
-	public map: Battlefield;
+	public battlefield: Battlefield;
 	public bullets: Map<string, TBullet> = new Map();
+	public bonuses: Map<string, IBonus> = new Map();
 	public activeTanks: Map<string, ITank>;
+	public readonly bonusAppearanceInterval: number = 60 * 10;
+	public bonusAppearanceTimer: number = 0;
 
 	public onEnter(): void {
 		this.createComponents();
+		this.configureTanks();
 		this.registerEventListeners();
-		this.scene.addChild(this.map);
+		this.scene.addChild(this.battlefield);
 		this.scene.visible = true;
 	}
 
@@ -45,9 +58,22 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	public updateFrame(delta: number): void {
+		this.addBonusesDuringTime(delta);
+
 		// Moving tanks
 		this.activeTanks.forEach((tank: ITank) => {
 			tank.move(delta);
+			tank.updateBonusTimers(delta);
+			tank.preventCollision(this.base);
+
+			// Detect and apply bonuses
+			this.bonuses.forEach((bonus: IBonus) => {
+				if (tank.checkCollision(bonus)) {
+					tank.applyBonus(bonus);
+					this.model.soundManager.bonus();
+					this.bonuses.delete(bonus.id);
+				}
+			});
 		});
 
 		// Detecting collision with walls, including hitting by bullets
@@ -94,16 +120,15 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private createComponents(): void {
-		this.map = this.mapGenerator.generateMap(Battlefield);
-		this.player = this.map.player;
-		this.enemies = this.map.enemies;
-		this.waters = this.map.waterComponents;
-		this.leaves = this.map.leaves;
-		this.base = this.map.base;
-		this.walls = this.map.walls;
-		this.configureTanks();
-		this.view.alignComponentCenterX(this.map);
-		this.view.alignComponentCenterY(this.map);
+		this.battlefield = this.mapGenerator.generateMap(Battlefield);
+		this.player = this.battlefield.player;
+		this.enemies = this.battlefield.enemies;
+		this.waters = this.battlefield.waterComponents;
+		this.leaves = this.battlefield.leaves;
+		this.base = this.battlefield.base;
+		this.walls = this.battlefield.walls;
+		this.view.alignComponentCenterX(this.battlefield);
+		this.view.alignComponentCenterY(this.battlefield);
 	}
 
 	private configureTanks(): void {
@@ -116,6 +141,22 @@ export class GameState extends AbstractState implements IState {
 			controlledEnemy.velocity = this.model.enemyVelocity;
 			this.activeTanks.set(controlledEnemy.id, controlledEnemy);
 		});
+	}
+
+	private addBonusesDuringTime(delta: number): void {
+		this.bonusAppearanceTimer += delta;
+		if (this.bonusAppearanceTimer >= this.bonusAppearanceInterval) {
+			this.bonusAppearanceTimer = 0;
+			this.generateRandomBonus();
+		}
+	}
+
+	private generateRandomBonus(): void {
+		const bonus: IBonus = this.view.createComponent(randomItemInArray(BONUSES));
+		const randomPosition: IPoint = randomItemInArray(this.battlefield.emptyCells);
+		bonus.position.set(randomPosition.x, randomPosition.y);
+		this.bonuses.set(bonus.id, bonus);
+		this.battlefield.addChild(bonus);
 	}
 
 	private registerEventListeners(): void {
@@ -168,7 +209,7 @@ export class GameState extends AbstractState implements IState {
 		bullet.velocity = this.model.bulletVelocity;
 		bullet.setInitialPoint(tank);
 		bullet.setDirection(tank.getDirectionAngle());
-		this.map.addChild(bullet);
+		this.battlefield.addChild(bullet);
 		this.bullets.set(bullet.id, bullet);
 	}
 
@@ -186,7 +227,7 @@ export class GameState extends AbstractState implements IState {
 		explosion.position.set(bullet.x, bullet.y);
 		bullet.break();
 		this.bullets.delete(bullet.id);
-		this.map.addChild(explosion);
+		this.battlefield.addChild(explosion);
 		this.model.soundManager.explode();
 	}
 }

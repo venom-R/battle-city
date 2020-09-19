@@ -11,6 +11,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	public vx: number = 0;
 	public vy: number = 0;
 	public velocity = 1;
+	public speed: number = 1;
 	protected readonly movement = new MovementService(this);
 
 	public abstract isFriendlyTarget(target: IComponent): boolean;

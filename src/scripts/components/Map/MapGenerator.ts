@@ -61,6 +61,7 @@ export class MapGenerator {
 					component.position.set(point.x, point.y);
 					if (component.name === EComponentName.ENEMY_TANK) {
 						(component as EnemyTank).setDirection(ETankDirection.DOWN);
+						this.addEmptyCell(point);
 					}
 					this._schema.set(component.id, component);
 					this.groupComponents(component);
@@ -95,7 +96,7 @@ export class MapGenerator {
 		}
 	}
 
-	private addEmptyCell(point: IPoint) {
+	private addEmptyCell(point: IPoint): void {
 		this._emptyCells.push(point);
 	}
 

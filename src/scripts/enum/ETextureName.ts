@@ -16,4 +16,8 @@ export enum ETextureName {
 	ENEMY_BULLET = "enemy_bullet.png",
 	PLAYER_BULLET = "bullet.png",
 	EXPLOSION = "explode",
+	BONUS_IMMORTAL = "bonus_immortal.png",
+	BONUS_LIFE = "bonus_live.png",
+	BONUS_DEGREASE_SPEED = "bonus_slow.png",
+	BONUS_INCREASE_SPEED = "bonus_speed.png",
 }

@@ -1,6 +1,7 @@
 import { Texture } from "pixi.js";
 import { EEventName } from "../../enum/EEventName";
 import { ETankDirection } from "../../enum/ETankDirection";
+import { IBonus } from "../../interface/IBonus";
 import { IComponent } from "../../interface/IComponent";
 import { ITank } from "../../interface/ITank";
 import { ITankController } from "../../interface/ITankController";
@@ -10,6 +11,7 @@ import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractTank extends AbstractComponent implements ITank {
 	public lifePoints: number = 1;
+	public speed: number = 1;
 	public abstract name: string;
 	public velocity: number = 1;
 	public vx: number = 0;
@@ -17,6 +19,31 @@ export abstract class AbstractTank extends AbstractComponent implements ITank {
 	public isDestroyed: boolean = false;
 	protected readonly movement = new MovementService(this);
 	protected controller: ITankController;
+	protected bonuses: Map<string, IBonus> = new Map();
+
+	public applyBonus(bonus: IBonus): void {
+		this.bonuses.set(bonus.id, bonus);
+		bonus.upgrade(this);
+		bonus.hide();
+	}
+
+	public removeBonus(bonus: IBonus): void {
+		bonus.restore(this);
+		this.bonuses.delete(bonus.id);
+	}
+
+	public updateBonusTimers(delta: number): void {
+		if (this.bonuses.size > 0) {
+			this.bonuses.forEach((bonus: IBonus) => {
+				if (bonus.timeout !== 0) {
+					bonus.timer += delta;
+					if (bonus.timer >= bonus.timeout) {
+						this.removeBonus(bonus);
+					}
+				}
+			});
+		}
+	}
 
 	public addControl(controller: ITankController): void {
 		this.controller = controller;
