@@ -4,6 +4,7 @@ import { ITank } from "../../../interface/ITank";
 import { Base } from "../../Base/Base";
 
 export class TankAIController implements IAIController {
+	public collision: string;
 	private readonly _tank: ITank;
 	private readonly _base: Base;
 	private _shotInterval = 15;
@@ -49,7 +50,7 @@ export class TankAIController implements IAIController {
 
 	private updateDirection(): void {
 		this._directionUpdateTimer = 0;
-		if (this.dx >= this.dy) {
+		if (this.dx >= this.dy && (!this.collision || this.collision === "top" || this.collision === "bottom")) {
 			if (this._base.x > this._tank.x) {
 				this._tank.setDirection(ETankDirection.RIGHT);
 			} else {

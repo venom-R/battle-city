@@ -1,6 +1,8 @@
 import { isFunction } from "lodash";
 import { IAIController } from "../../../interface/IAIController";
+import { IComponent } from "../../../interface/IComponent";
 import { ITank } from "../../../interface/ITank";
+import { CollisionDetector } from "../../../util/CollisionDetector";
 
 export class TankAIControlledProxyCreator {
 	private readonly _controller: IAIController;
@@ -16,6 +18,8 @@ export class TankAIControlledProxyCreator {
 					switch (prop) {
 						case "move":
 							return this.createMoveProxy(target[prop], tank);
+						case "preventCollision":
+							return this.createPreventCollisionProxy(target[prop], tank);
 						default:
 							if (isFunction(target[prop])) {
 								return (target[prop] as Function).bind(target);
@@ -33,6 +37,15 @@ export class TankAIControlledProxyCreator {
 			this._controller.autoFire();
 			this._controller.autoMove();
 			originalMethod.call(context, delta);
+		};
+	}
+
+	private createPreventCollisionProxy(originalMethod: Function, context: ITank): (component: IComponent) => void {
+		return (component: IComponent) => {
+			if (context.checkCollision(component)) {
+				this._controller.collision = CollisionDetector.identifyHitSide(context, component);
+				originalMethod.call(context, component);
+			}
 		};
 	}
 }
