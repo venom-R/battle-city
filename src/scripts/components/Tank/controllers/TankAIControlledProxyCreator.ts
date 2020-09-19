@@ -42,7 +42,7 @@ export class TankAIControlledProxyCreator {
 
 	private createPreventCollisionProxy(originalMethod: Function, context: ITank): (component: IComponent) => void {
 		return (component: IComponent) => {
-			if (context.checkCollision(component)) {
+			if (context.hit(component)) {
 				this._controller.collision = CollisionDetector.identifyHitSide(context, component);
 				originalMethod.call(context, component);
 			}

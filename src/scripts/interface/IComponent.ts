@@ -16,7 +16,7 @@ export interface IMovingComponent extends IComponent {
 	vx: number;
 	vy: number;
 	getDirectionAngle?(): number;
-	checkCollision(component: IComponent): boolean;
+	hit(component: IComponent): boolean;
 	preventCollision?(component: IComponent): void;
 	move(delta: number): void;
 	stopMove(): void;

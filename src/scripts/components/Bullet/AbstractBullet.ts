@@ -16,7 +16,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 
 	public abstract isFriendlyTarget(target: IComponent): boolean;
 
-	public checkCollision(component: IComponent): boolean {
+	public hit(component: IComponent): boolean {
 		return CollisionDetector.hitTestRectangle(this, component);
 	}
 

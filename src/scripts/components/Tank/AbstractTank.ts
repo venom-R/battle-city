@@ -61,12 +61,12 @@ export abstract class AbstractTank extends AbstractComponent implements ITank {
 		}
 	}
 
-	public checkCollision(component: IComponent): boolean {
+	public hit(component: IComponent): boolean {
 		return CollisionDetector.hitTestRectangle(this, component);
 	}
 
 	public preventCollision(component: IComponent): void {
-		if (this.checkCollision(component)) {
+		if (this.hit(component)) {
 			const collision: string = CollisionDetector.identifyHitSide(this, component);
 			CollisionDetector.preventCollision(this, component, collision);
 		}

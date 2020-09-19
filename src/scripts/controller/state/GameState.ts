@@ -68,7 +68,7 @@ export class GameState extends AbstractState implements IState {
 
 			// Detect and apply bonuses
 			this.bonuses.forEach((bonus: IBonus) => {
-				if (tank.checkCollision(bonus)) {
+				if (tank.hit(bonus)) {
 					tank.applyBonus(bonus);
 					this.model.soundManager.bonus();
 					this.bonuses.delete(bonus.id);
@@ -80,7 +80,7 @@ export class GameState extends AbstractState implements IState {
 		this.walls.forEach((brick: TBrick) => {
 			// Collision tank and wall
 			this.activeTanks.forEach((tank: ITank) => {
-				if (tank.name === EComponentName.PLAYER_TANK && tank.checkCollision(brick)) {
+				if (tank.name === EComponentName.PLAYER_TANK && tank.hit(brick)) {
 					this.model.soundManager.hit();
 				}
 				tank.preventCollision(brick);
@@ -96,7 +96,7 @@ export class GameState extends AbstractState implements IState {
 
 		this.waters.forEach((water: Water) => {
 			this.activeTanks.forEach((tank: ITank) => {
-				if (tank.checkCollision(water)) {
+				if (tank.hit(water)) {
 					tank.break();
 				}
 			});
@@ -214,7 +214,7 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private bulletHit(bullet: TBullet, component: TBrick | ITank | Base): boolean {
-		if (bullet.checkCollision(component)) {
+		if (bullet.hit(component)) {
 			this.explode(bullet);
 			component.getDamage();
 			return true;
