@@ -14,8 +14,6 @@ const APP_CONFIG = {
 	resolution: 1,
 };
 
-type TConstructor<T> = new (...params: Array<any>) => T;
-
 export class GameView {
 	public textures: ITextureDictionary = {};
 	private _canvasContainer: HTMLElement;
