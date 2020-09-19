@@ -9,7 +9,7 @@ const tankTextureNames: Array<string> = [ETextureName.ENEMY_BLUE, ETextureName.E
 
 export class EnemyTank extends AbstractTank implements ITank {
 	public name: string = EComponentName.ENEMY_TANK;
-	public static readonly requiredTextures: string | Array<string> = tankTextureNames;
+	public readonly requiredTextures: string | Array<string> = tankTextureNames;
 
 	public setTextureSet(texture: Array<Texture>): void {
 		const randomTexture: Texture = randomItemInArray(texture);

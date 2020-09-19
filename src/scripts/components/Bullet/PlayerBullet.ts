@@ -5,7 +5,7 @@ import { AbstractBullet } from "./AbstractBullet";
 
 export class PlayerBullet extends AbstractBullet implements IMovingComponent {
 	public name: string = EComponentName.PLAYER_BULLET;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.PLAYER_BULLET;
+	public readonly requiredTextures: string | Array<string> = ETextureName.PLAYER_BULLET;
 
 	public isFriendlyTarget(target: IComponent): boolean {
 		return target.name === EComponentName.PLAYER_TANK || target.name === EComponentName.BASE;

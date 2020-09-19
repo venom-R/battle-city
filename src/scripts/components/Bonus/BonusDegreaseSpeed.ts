@@ -6,7 +6,7 @@ import { AbstractBonus } from "./AbstractBonus";
 
 export class BonusDegreaseSpeed extends AbstractBonus implements IBonus {
 	public name: string = EComponentName.BONUS_DEGREASE_SPEED;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.BONUS_DEGREASE_SPEED;
+	public readonly requiredTextures: string | Array<string> = ETextureName.BONUS_DEGREASE_SPEED;
 	public timeout: number = 60 * 4;
 	private _valueToIncrease = 0.5;
 

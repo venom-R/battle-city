@@ -1,5 +1,3 @@
-import { Loader } from "pixi.js";
-import { EEventName } from "../../enum/EEventName";
 import { EStateName } from "../../enum/EStateName";
 import { IState } from "../../interface/IState";
 import { LoadingBar } from "../../components/LoadingBar/LoadingBar";
@@ -9,7 +7,7 @@ export class LoadingState extends AbstractState implements IState {
 	private _loadingBar: LoadingBar;
 
 	public onEnter(): void {
-		this._loadingBar = this.view.createComponent(LoadingBar);
+		this._loadingBar = new LoadingBar();
 		this.view.alignComponentCenterX(this._loadingBar);
 		this.view.alignComponentCenterY(this._loadingBar);
 		this.scene.addChild(this._loadingBar);

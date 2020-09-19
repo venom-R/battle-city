@@ -57,7 +57,7 @@ export class MapGenerator {
 				const Component: TComponentConstructor = this._componentConstructors[cell];
 				const point = new Point(cellIndex * this._cellSize, rowIndex * this._cellSize);
 				if (Component !== null) {
-					const component: IComponent = this._componentsCreator(Component);
+					const component: IComponent = this._componentsCreator(new Component());
 					component.position.set(point.x, point.y);
 					if (component.name === EComponentName.ENEMY_TANK) {
 						(component as EnemyTank).setDirection(ETankDirection.DOWN);

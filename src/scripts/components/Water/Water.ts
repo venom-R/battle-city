@@ -5,5 +5,5 @@ import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export class Water extends AbstractComponent implements IComponent {
 	public name: string = EComponentName.WATER;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.WATER;
+	public readonly requiredTextures: string | Array<string> = ETextureName.WATER;
 }

@@ -5,5 +5,5 @@ import { AbstractTank } from "./AbstractTank";
 
 export class PlayerTank extends AbstractTank implements IMovingComponent {
 	public name: string = EComponentName.PLAYER_TANK;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.PLAYER_TANK;
+	public readonly requiredTextures: string | Array<string> = ETextureName.PLAYER_TANK;
 }

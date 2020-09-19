@@ -6,7 +6,7 @@ import { AbstractBonus } from "./AbstractBonus";
 
 export class BonusLife extends AbstractBonus implements IBonus {
 	public name: string = EComponentName.BONUS_LIFE;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.BONUS_LIFE;
+	public readonly requiredTextures: string | Array<string> = ETextureName.BONUS_LIFE;
 	public timeout: number = 0;
 
 	public upgrade(tank: ITank): void {

@@ -7,7 +7,7 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 	public isIndestructible: boolean = false;
 	public lifePoints: number = 1;
 	public readonly name: string = EComponentName.SIMPLE_BRICK;
-	public static readonly requiredTextures: string | Array<string> = [
+	public readonly requiredTextures: string | Array<string> = [
 		ETextureName.SMALL_BRICK_1,
 		ETextureName.SMALL_BRICK_2,
 		ETextureName.SMALL_BRICK_3,

@@ -60,16 +60,13 @@ export class GameView {
 		component.y = (this.screenSize.height - component.height) / 2;
 	}
 
-	public createComponent<T extends IComponent>(Component: TConstructor<T>, ...params: Array<any>): T {
-		// @ts-ignore
-		const { requiredTextures } = Component;
-		if (requiredTextures) {
-			const textures: Texture | Array<Texture> = this.getTextures(requiredTextures);
-			const component = new Component(...params);
+	public createComponent<T extends IComponent>(component: T): T {
+		if (component.requiredTextures) {
+			const textures: Texture | Array<Texture> = this.getTextures(component.requiredTextures);
 			Array.isArray(textures) ? component.setTextureSet(textures) : component.setTexture(textures);
 			return component;
 		}
-		return new Component(...params);
+		return component;
 	}
 
 	private initializeApplication(): void {

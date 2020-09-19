@@ -9,7 +9,7 @@ export class Explosion extends AbstractComponent implements IComponent {
 	public isDestroyed: boolean;
 	public sprite: AnimatedSprite;
 	private static _frames: number = 16;
-	public static readonly requiredTextures: string | Array<string> = Explosion.generateTextureNames();
+	public readonly requiredTextures: string | Array<string> = Explosion.generateTextureNames();
 
 	public setTextureSet(textures: Array<PIXI.Texture>): void {
 		this.textureSet = [...textures];

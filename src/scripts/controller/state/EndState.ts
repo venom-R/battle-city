@@ -22,7 +22,7 @@ export class EndState extends AbstractState implements IState {
 
 	private createTitle(): void {
 		const content: string = this.model.isWin ? "You win!" : "You lose!";
-		this._title = this.view.createComponent(Title, content);
+		this._title = new Title(content);
 		this.view.alignComponentCenterX(this._title);
 	}
 

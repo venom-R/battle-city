@@ -6,7 +6,7 @@ import { AbstractBonus } from "./AbstractBonus";
 
 export class BonusImmortal extends AbstractBonus implements IBonus {
 	public name: string = EComponentName.BONUS_IMMORTAL;
-	public static readonly requiredTextures: string | Array<string> = ETextureName.BONUS_IMMORTAL;
+	public readonly requiredTextures: string | Array<string> = ETextureName.BONUS_IMMORTAL;
 	public timeout: number = 60 * 2;
 	private _originalLifePoints: number;
 

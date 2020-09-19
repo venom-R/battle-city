@@ -152,7 +152,8 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private generateRandomBonus(): void {
-		const bonus: IBonus = this.view.createComponent(randomItemInArray(BONUSES));
+		const Bonus: new () => IBonus = randomItemInArray(BONUSES);
+		const bonus: IBonus = this.view.createComponent(new Bonus());
 		const randomPosition: IPoint = randomItemInArray(this.battlefield.emptyCells);
 		bonus.position.set(randomPosition.x, randomPosition.y);
 		this.bonuses.set(bonus.id, bonus);
@@ -204,8 +205,8 @@ export class GameState extends AbstractState implements IState {
 	private drawBullet(tank: ITank): void {
 		const bullet: TBullet =
 			tank.name === EComponentName.PLAYER_TANK
-				? this.view.createComponent(PlayerBullet)
-				: this.view.createComponent(EnemyBullet);
+				? this.view.createComponent(new PlayerBullet())
+				: this.view.createComponent(new EnemyBullet());
 		bullet.velocity = this.model.bulletVelocity;
 		bullet.setInitialPoint(tank);
 		bullet.setDirection(tank.getDirectionAngle());
@@ -223,7 +224,7 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private explode(bullet: TBullet): void {
-		const explosion = this.view.createComponent(Explosion);
+		const explosion = this.view.createComponent(new Explosion());
 		explosion.position.set(bullet.x, bullet.y);
 		bullet.break();
 		this.bullets.delete(bullet.id);
