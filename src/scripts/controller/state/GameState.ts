@@ -9,7 +9,6 @@ import { PlayerBullet } from "../../components/Bullet/PlayerBullet";
 import { Explosion } from "../../components/Explosion/Explosion";
 import { Leaf } from "../../components/Leaf/Leaf";
 import { Battlefield } from "../../components/Map/Battlefield";
-import { MapGenerator } from "../../components/Map/MapGenerator";
 import { levelSchema } from "../../components/Map/levelSchema";
 import { TankAIControlledProxyCreator } from "../../components/Tank/controllers/TankAIControlledProxyCreator";
 import { TankAIController } from "../../components/Tank/controllers/TankAIController";
@@ -20,18 +19,16 @@ import { Water } from "../../components/Water/Water";
 import { EComponentName } from "../../enum/EComponentName";
 import { EEventName } from "../../enum/EEventName";
 import { IBonus } from "../../interface/IBonus";
+import { IBullet } from "../../interface/IBullet";
 import { IState } from "../../interface/IState";
 import { ITank } from "../../interface/ITank";
 import { TBrick } from "../../type/TBrick";
 import { randomItemInArray } from "../../util/helpers";
 import { AbstractState } from "./AbstractState";
 
-type TBullet = PlayerBullet | EnemyBullet;
-
 const BONUSES: Array<new () => IBonus> = [BonusLife, BonusImmortal, BonusIncreaseSpeed, BonusDegreaseSpeed];
 
 export class GameState extends AbstractState implements IState {
-	public mapGenerator = new MapGenerator(levelSchema, this.view.createComponent.bind(this.view));
 	public player: PlayerTank;
 	public enemies: Map<string, EnemyTank>;
 	public waters: Map<string, Water>;
@@ -39,7 +36,7 @@ export class GameState extends AbstractState implements IState {
 	public walls: Map<string, TBrick>;
 	public base: Base;
 	public battlefield: Battlefield;
-	public bullets: Map<string, TBullet> = new Map();
+	public bullets: Map<string, IBullet> = new Map();
 	public bonuses: Map<string, IBonus> = new Map();
 	public activeTanks: Map<string, ITank>;
 	public readonly bonusAppearanceInterval: number = 60 * 10;
@@ -88,7 +85,7 @@ export class GameState extends AbstractState implements IState {
 			});
 
 			// Hitting walls
-			this.bullets.forEach((bullet: TBullet) => {
+			this.bullets.forEach((bullet: IBullet) => {
 				if (this.bulletHit(bullet, brick) && brick.isDestroyed) {
 					this.walls.delete(brick.id);
 				}
@@ -103,7 +100,7 @@ export class GameState extends AbstractState implements IState {
 			});
 		});
 
-		this.bullets.forEach((bullet: TBullet) => {
+		this.bullets.forEach((bullet: IBullet) => {
 			bullet.move(delta);
 
 			// Hitting tanks
@@ -121,7 +118,7 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private createComponents(): void {
-		this.battlefield = this.mapGenerator.generateMap(Battlefield);
+		this.battlefield = this.view.generateMap(levelSchema);
 		this.player = this.battlefield.player;
 		this.enemies = this.battlefield.enemies;
 		this.waters = this.battlefield.waterComponents;
@@ -204,7 +201,7 @@ export class GameState extends AbstractState implements IState {
 	}
 
 	private drawBullet(tank: ITank): void {
-		const bullet: TBullet =
+		const bullet: IBullet =
 			tank.name === EComponentName.PLAYER_TANK
 				? this.view.createComponent(new PlayerBullet())
 				: this.view.createComponent(new EnemyBullet());
@@ -215,7 +212,7 @@ export class GameState extends AbstractState implements IState {
 		this.bullets.set(bullet.id, bullet);
 	}
 
-	private bulletHit(bullet: TBullet, component: TBrick | ITank | Base): boolean {
+	private bulletHit(bullet: IBullet, component: TBrick | ITank | Base): boolean {
 		if (bullet.hit(component)) {
 			this.explode(bullet);
 			component.getDamage();
@@ -224,7 +221,7 @@ export class GameState extends AbstractState implements IState {
 		return false;
 	}
 
-	private explode(bullet: TBullet): void {
+	private explode(bullet: IBullet): void {
 		const explosion = this.view.createComponent(new Explosion());
 		explosion.position.set(bullet.x, bullet.y);
 		bullet.break();

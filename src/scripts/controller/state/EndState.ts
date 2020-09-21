@@ -5,7 +5,7 @@ import { AbstractState } from "./AbstractState";
 
 export class EndState extends AbstractState implements IState {
 	private _title: Title;
-	private _score: Title;
+	private _score: Paragraph;
 
 	public onEnter(): void {
 		this.createTitle();

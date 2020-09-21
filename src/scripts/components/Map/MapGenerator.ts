@@ -14,7 +14,6 @@ import { Water } from "../Water/Water";
 import { Battlefield } from "./Battlefield";
 
 type TComponentConstructor = new (...params: Array<any>) => any;
-type TBattlefieldConstructor = new (generator: IMapProps) => Battlefield;
 
 const componentConstructors: Array<TComponentConstructor> = [
 	null,
@@ -36,22 +35,20 @@ export class MapGenerator {
 	private _walls: Map<string, TBrick> = new Map();
 	private _leaves: Map<string, Leaf> = new Map();
 	private readonly _cellSize: number = 36;
-	private readonly _schema: Array<Array<number>>;
 	private readonly _componentConstructors: Array<TComponentConstructor> = componentConstructors;
 	private readonly _componentsCreator: Function;
 
-	constructor(schema: Array<Array<number>>, componentsCreator: Function) {
-		this._schema = schema;
+	constructor(componentsCreator: Function) {
 		this._componentsCreator = componentsCreator;
 	}
 
-	public generateMap(Map: TBattlefieldConstructor): Battlefield {
-		this.createSchema();
-		return new Map(this.mapProps);
+	public generateMap(schema: Array<Array<number>>): Battlefield {
+		this.createSchema(schema);
+		return new Battlefield(this.mapProps);
 	}
 
-	private createSchema(): void {
-		this._schema.forEach((row: Array<number>, rowIndex: number) => {
+	private createSchema(schema: Array<Array<number>>): void {
+		schema.forEach((row: Array<number>, rowIndex: number) => {
 			return row.forEach((cell: number, cellIndex: number) => {
 				const Component: TComponentConstructor = this._componentConstructors[cell];
 				const point = new Point(cellIndex * this._cellSize, rowIndex * this._cellSize);

@@ -1,5 +1,7 @@
 import { map } from "lodash";
 import { Application, Container, DisplayObject, ITextureDictionary, Sprite, Texture } from "pixi.js";
+import { Battlefield } from "../components/Map/Battlefield";
+import { MapGenerator } from "../components/Map/MapGenerator";
 import { COLORS } from "../constants/colors";
 import { SETTINGS } from "../constants/settings";
 import { IComponent } from "../interface/IComponent";
@@ -18,9 +20,11 @@ export class GameView {
 	public textures: ITextureDictionary = {};
 	private _canvasContainer: HTMLElement;
 	private _app: Application;
+	private _mapGenerator: MapGenerator;
 
 	constructor() {
 		this.initializeApplication();
+		this._mapGenerator = new MapGenerator(this.createComponent.bind(this));
 	}
 
 	public addToStage<TChildren extends DisplayObject[]>(...children: TChildren): void {
@@ -48,6 +52,10 @@ export class GameView {
 			return this.textures[textureNames];
 		}
 		throw new Error("Textures has not been loaded!");
+	}
+
+	public generateMap(schema: Array<Array<number>>): Battlefield {
+		return this._mapGenerator.generateMap(schema);
 	}
 
 	public alignComponentCenterX(component: Container | Sprite): void {
