@@ -10,7 +10,7 @@
  * 7 - enemy tank
  * */
 
-export const initialSchema: Array<Array<number>> = [
+export const levelSchema: Array<Array<number>> = [
 	[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 	[2, 7, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 7, 2],
 	[2, 0, 1, 1, 0, 0, 1, 1, 0, 7, 1, 1, 3, 1, 1, 7, 0, 1, 1, 4, 4, 1, 1, 0, 2],

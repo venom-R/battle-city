@@ -7,6 +7,7 @@ import { MovementService } from "../../util/MovementService";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractBullet extends AbstractComponent implements IMovingComponent {
+	public abstract requiredTextures: string | Array<string>;
 	public isDestroyed: boolean = false;
 	public vx: number = 0;
 	public vy: number = 0;

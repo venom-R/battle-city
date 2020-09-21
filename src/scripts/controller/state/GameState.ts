@@ -10,6 +10,7 @@ import { Explosion } from "../../components/Explosion/Explosion";
 import { Leaf } from "../../components/Leaf/Leaf";
 import { Battlefield } from "../../components/Map/Battlefield";
 import { MapGenerator } from "../../components/Map/MapGenerator";
+import { levelSchema } from "../../components/Map/levelSchema";
 import { TankAIControlledProxyCreator } from "../../components/Tank/controllers/TankAIControlledProxyCreator";
 import { TankAIController } from "../../components/Tank/controllers/TankAIController";
 import { EnemyTank } from "../../components/Tank/EnemyTank";
@@ -30,7 +31,7 @@ type TBullet = PlayerBullet | EnemyBullet;
 const BONUSES: Array<new () => IBonus> = [BonusLife, BonusImmortal, BonusIncreaseSpeed, BonusDegreaseSpeed];
 
 export class GameState extends AbstractState implements IState {
-	public mapGenerator = new MapGenerator(this.view.createComponent.bind(this.view));
+	public mapGenerator = new MapGenerator(levelSchema, this.view.createComponent.bind(this.view));
 	public player: PlayerTank;
 	public enemies: Map<string, EnemyTank>;
 	public waters: Map<string, Water>;

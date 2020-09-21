@@ -11,7 +11,6 @@ import { Leaf } from "../Leaf/Leaf";
 import { EnemyTank } from "../Tank/EnemyTank";
 import { PlayerTank } from "../Tank/PlayerTank";
 import { Water } from "../Water/Water";
-import { initialSchema } from "./initialSchema";
 import { Battlefield } from "./Battlefield";
 
 type TComponentConstructor = new (...params: Array<any>) => any;
@@ -33,16 +32,16 @@ export class MapGenerator {
 	private _base: Base;
 	private _waterComponents: Map<string, Water> = new Map();
 	private _enemies: Map<string, EnemyTank> = new Map();
-	private _schema: Map<string, IComponent> = new Map();
 	private _emptyCells: Array<IPoint> = [];
 	private _walls: Map<string, TBrick> = new Map();
 	private _leaves: Map<string, Leaf> = new Map();
 	private readonly _cellSize: number = 36;
-	private readonly _initialSchema: Array<Array<number>> = initialSchema;
+	private readonly _schema: Array<Array<number>>;
 	private readonly _componentConstructors: Array<TComponentConstructor> = componentConstructors;
 	private readonly _componentsCreator: Function;
 
-	constructor(componentsCreator: Function) {
+	constructor(schema: Array<Array<number>>, componentsCreator: Function) {
+		this._schema = schema;
 		this._componentsCreator = componentsCreator;
 	}
 
@@ -52,7 +51,7 @@ export class MapGenerator {
 	}
 
 	private createSchema(): void {
-		this._initialSchema.forEach((row: Array<number>, rowIndex: number) => {
+		this._schema.forEach((row: Array<number>, rowIndex: number) => {
 			return row.forEach((cell: number, cellIndex: number) => {
 				const Component: TComponentConstructor = this._componentConstructors[cell];
 				const point = new Point(cellIndex * this._cellSize, rowIndex * this._cellSize);
@@ -63,7 +62,6 @@ export class MapGenerator {
 						(component as EnemyTank).setDirection(ETankDirection.DOWN);
 						this.addEmptyCell(point);
 					}
-					this._schema.set(component.id, component);
 					this.groupComponents(component);
 				} else {
 					this.addEmptyCell(point);
@@ -106,7 +104,6 @@ export class MapGenerator {
 			base: this._base,
 			waterComponents: this._waterComponents,
 			enemies: this._enemies,
-			schema: this._schema,
 			emptyCells: this._emptyCells,
 			walls: this._walls,
 			leaves: this._leaves,

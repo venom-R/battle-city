@@ -10,9 +10,9 @@ import { MovementService } from "../../util/MovementService";
 import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractTank extends AbstractComponent implements ITank {
+	public abstract requiredTextures: string | Array<string>;
 	public lifePoints: number = 1;
 	public speed: number = 1;
-	public abstract name: string;
 	public velocity: number = 1;
 	public vx: number = 0;
 	public vy: number = 0;

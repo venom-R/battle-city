@@ -17,7 +17,6 @@ export class Battlefield extends AbstractComponent implements IComponent {
 	public base: Base;
 	public waterComponents: Map<string, Water>;
 	public enemies: Map<string, EnemyTank>;
-	public schema: Map<string, IComponent>;
 	public emptyCells: Array<IPoint>;
 	public walls: Map<string, TBrick>;
 	public leaves: Map<string, Leaf>;
@@ -28,7 +27,6 @@ export class Battlefield extends AbstractComponent implements IComponent {
 		this.base = props.base;
 		this.waterComponents = props.waterComponents;
 		this.enemies = props.enemies;
-		this.schema = props.schema;
 		this.emptyCells = props.emptyCells;
 		this.walls = props.walls;
 		this.leaves = props.leaves;
