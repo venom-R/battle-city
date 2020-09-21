@@ -30,10 +30,10 @@ export class SimpleBrick extends AbstractBrick implements IComponent {
 
 	public setTextureSet(textures: Array<PIXI.Texture>) {
 		super.setTextureSet(textures);
-		this.imageSet[0].position.set(0, 0);
-		this.imageSet[1].position.set(18, 0);
-		this.imageSet[2].position.set(0, 18);
-		this.imageSet[3].position.set(18, 18);
-		this.addChild(...this.imageSet);
+		this.spriteSet[0].position.set(0, 0);
+		this.spriteSet[1].position.set(18, 0);
+		this.spriteSet[2].position.set(0, 18);
+		this.spriteSet[3].position.set(18, 18);
+		this.addChild(...this.spriteSet);
 	}
 }

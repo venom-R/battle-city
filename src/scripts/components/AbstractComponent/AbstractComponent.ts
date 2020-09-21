@@ -6,9 +6,10 @@ export abstract class AbstractComponent extends Container implements IComponent 
 	public readonly id: string = uuid();
 	public abstract name: string;
 	public sprite: Sprite;
+	public requiredTextures: string | Array<string>;
 	protected texture: Texture;
 	protected textureSet: Array<Texture> = [];
-	protected imageSet: Array<Sprite> = [];
+	protected spriteSet: Array<Sprite> = [];
 
 	public setTexture(texture: Texture): void {
 		this.texture = texture;
@@ -16,10 +17,10 @@ export abstract class AbstractComponent extends Container implements IComponent 
 		this.addChild(this.sprite);
 	}
 
-	public setTextureSet(textures: Array<PIXI.Texture>): void {
+	public setTextureSet(textures: Array<Texture>): void {
 		this.textureSet = [...textures];
 		this.textureSet.forEach((texture: Texture) => {
-			this.imageSet.push(new Sprite(texture));
+			this.spriteSet.push(new Sprite(texture));
 		});
 	}
 
