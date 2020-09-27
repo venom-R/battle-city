@@ -12,8 +12,8 @@ export class BonusImmortal extends AbstractBonus implements IBonus {
 
 	public upgrade(tank: ITank): void {
 		this._originalLifePoints = tank.lifePoints;
-		tank.lifePoints = 999999;
-		tank.alpha = 0.5;
+		tank.lifePoints = 999999;//add to class property
+		tank.alpha = 0.5;//add  to class property
 		console.time("BonusImmortal");
 	}
 

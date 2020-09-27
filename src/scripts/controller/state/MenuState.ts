@@ -22,7 +22,7 @@ export class MenuState extends AbstractState implements IState {
 	}
 
 	private createTitle(): void {
-		this._title = new Title("Tank Game");
+		this._title = new Title("Tank Game");//add to utils class names
 		this.view.alignComponentCenterX(this._title);
 	}
 

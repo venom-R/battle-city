@@ -7,7 +7,7 @@ type EventsType = {
 export class Emitter {
 	private _events: EventsType = {};
 
-	on(type: string, listener: ListenerType): void {
+	on(type: string, listener: ListenerType): void {//public
 		this._events[type] = this._events[type] || [];
 		this._events[type].push(listener);
 	}

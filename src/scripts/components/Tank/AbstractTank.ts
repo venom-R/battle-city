@@ -17,7 +17,7 @@ export abstract class AbstractTank extends AbstractComponent implements ITank {
 	public vx: number = 0;
 	public vy: number = 0;
 	public isDestroyed: boolean = false;
-	protected readonly movement = new MovementService(this);
+	protected readonly movement = new MovementService(this);//type
 	protected controller: ITankController;
 	protected bonuses: Map<string, IBonus> = new Map();
 

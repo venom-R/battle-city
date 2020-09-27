@@ -11,9 +11,9 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	public isDestroyed: boolean = false;
 	public vx: number = 0;
 	public vy: number = 0;
-	public velocity = 1;
+	public velocity = 1;//number
 	public speed: number = 1;
-	protected readonly movement = new MovementService(this);
+	protected readonly movement = new MovementService(this);//:MovementService
 
 	public abstract isFriendlyTarget(target: IComponent): boolean;
 
@@ -22,7 +22,7 @@ export abstract class AbstractBullet extends AbstractComponent implements IMovin
 	}
 
 	public break(): void {
-		this.x = -100;
+		this.x = -100;//add to class property
 		this.visible = false;
 		this.isDestroyed = true;
 	}

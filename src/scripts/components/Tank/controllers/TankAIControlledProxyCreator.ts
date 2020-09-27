@@ -16,9 +16,9 @@ export class TankAIControlledProxyCreator {
 			get: (target: ITank, prop: keyof ITank, receiver: any) => {
 				if (target[prop]) {
 					switch (prop) {
-						case "move":
+						case "move"://add all this strings to global utilits names
 							return this.createMoveProxy(target[prop], tank);
-						case "preventCollision":
+						case "preventCollision"://add all this strings to global utilits names
 							return this.createPreventCollisionProxy(target[prop], tank);
 						default:
 							if (isFunction(target[prop])) {

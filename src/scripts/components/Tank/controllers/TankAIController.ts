@@ -9,7 +9,7 @@ export class TankAIController implements IAIController {
 	private readonly _base: Base;
 	private _shotInterval = 15;
 	private _shotTimer = 0;
-	private _shotProbability = 0.7;
+	private _shotProbability = 0.7;//:number type for all
 	private _directionUpdateInterval = 30;
 	private _directionUpdateTimer = 0;
 	private _directionUpdateProbability = 0.6;
@@ -50,7 +50,7 @@ export class TankAIController implements IAIController {
 
 	private updateDirection(): void {
 		this._directionUpdateTimer = 0;
-		if (this.dx >= this.dy && (!this.collision || this.collision === "top" || this.collision === "bottom")) {
+		if (this.dx >= this.dy && (!this.collision || this.collision === "top" || this.collision === "bottom")) {//top,bottom etc add to utils names class
 			if (this._base.x > this._tank.x) {
 				this._tank.setDirection(ETankDirection.RIGHT);
 			} else {

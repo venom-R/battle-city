@@ -4,7 +4,7 @@ import { AbstractComponent } from "../AbstractComponent/AbstractComponent";
 
 export abstract class AbstractText extends AbstractComponent implements IComponent {
 	public _content: string;
-	protected _text;
+	protected _text;//type
 
 	constructor(content: string, style: TextStyle) {
 		super();

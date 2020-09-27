@@ -11,7 +11,7 @@ export abstract class AbstractComponent extends Container implements IComponent 
 	protected textureSet: Array<Texture> = [];
 	protected spriteSet: Array<Sprite> = [];
 
-	public setTexture(texture: Texture): void {
+	public setTexture(texture: Texture): void {//What happens with previous texture if this.sprite was allready created?
 		this.texture = texture;
 		this.sprite = new Sprite(texture);
 		this.addChild(this.sprite);

@@ -11,7 +11,7 @@ export abstract class AbstractBonus extends AbstractComponent implements IBonus 
 	public abstract restore(tank: ITank): void;
 
 	public hide(): void {
-		this.x = -100;
+		this.x = -100;//add -100 to class property
 		this.visible = false;
 	}
 }
